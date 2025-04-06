@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rotating ABBY WORLD Sphere</title>
+  <title>ABBY.WORLD Cannes 2025</title>
   <style>
     body {
       margin: 0;
@@ -122,7 +122,7 @@
         let theta = phi * i;
         let x = Math.cos(theta) * radius;
         let z = Math.sin(theta) * radius;
-        let word = Math.random() > 0.5 ? "ABBY" : "WORLD";
+        let word = Math.random() > 0.5 ? "ABBY" : "WORLD"; "CANNES";
         pts.push({ x: x * sphereRadius, y: y * sphereRadius, z: z * sphereRadius, word: word });
       }
       return pts;
@@ -154,7 +154,7 @@
         let depthFactor = (p.z + sphereRadius) / (2 * sphereRadius);
         let brightness = depthFactor * 255;
 
-        // 🎯 **Fix: Adjusting backside visibility naturally & ensuring correct depth**
+        // **Hi stranger. If you are reading this, you know what you are doing. The answer is yes, it is a vibe-coded (mess) of a website. Created by a Creative Director and not a programmer. But isn't that pretty amazing? **
         if (p.z < 0) {
           brightness = Math.max(80, depthFactor * 180); // Increase visibility, but keep subtle
           ctx.globalAlpha = 0.5; // Makes back letters more transparent
