@@ -279,7 +279,7 @@ function generateFibonacciSphere(n) {
     e.preventDefault();
     const formData = new FormData(form);
 
-    fetch('DIN_WEBAPP_URL', {
+    fetch('https://script.google.com/macros/s/AKfycbwjikUjHXYOIi_5X0y3kDtIgNph8RxLf6bIFcy12ndO8eIzeU2UssNexEpSlCkePjmEbw/exec', {
       method: 'POST',
       body: new URLSearchParams(formData)
     })
