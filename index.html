@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ABBY.WORLD Cannes 2025</title>
-<link rel="icon" href="favicon.png" type="image/png">
+  <link rel="icon" href="favicon.png" type="image/png">
   <style>
     body {
       margin: 0;
@@ -21,7 +21,7 @@
       left: 10px;
       padding: 5px;
       color: #fff;
-      font-size: 8px;
+      font-size: 10px;
       z-index: 10;
     }
     #controls label {
@@ -50,29 +50,110 @@
       margin-top: 5px;
       background: transparent;
       color: white;
-      border: 1px solid black;
+      border: 1px solid white;
       padding: 4px;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 8px;
+      font-size: 10px;
+    }
+    @media (max-width: 768px) {
+      #controls input[type="range"],
+      #controls span {
+        display: none;
+      }
     }
   </style>
 </head>
 <body onclick="startMusic()">
   <div id="controls">
-    <input type="range" id="numPointsSlider" min="125" max="500" value="120"><span id="numPointsVal"></span>
-    <input type="range" id="rotXSlider" min="0.009" max="0.02" step="0.001" value="0.002"><span id="rotXVal"></span>
-    <input type="range" id="rotYSlider" min="0.009" max="0.02" step="0.001" value="0.002"><span id="rotYVal"></span>
-   <input type="range" id="focalSlider" min="300" max="3000" value="2000"><span id="focalVal"></span>
+    <input type="range" id="numPointsSlider" min="125" max="500" value="312"><span id="numPointsVal"></span>
+    <input type="range" id="rotXSlider" min="0.009" max="0.02" step="0.001" value="0.0145"><span id="rotXVal"></span>
+    <input type="range" id="rotYSlider" min="0.009" max="0.02" step="0.001" value="0.0145"><span id="rotYVal"></span>
+    <input type="range" id="focalSlider" min="300" max="3000" value="1650"><span id="focalVal"></span>
     <button id="musicBtn" onclick="toggleMusic()">SOUND</button>
   </div>
 
-  <!-- Background Music -->
   <audio id="bgMusic" loop>
     <source src="https://raw.githubusercontent.com/ABBY-WORLD/FIATLUX/main/fiatlux.mp3" type="audio/mpeg">
   </audio>
 
   <canvas id="canvas"></canvas>
+
+  <div style="position: absolute; top: 10px; right: 10px; z-index: 999;">
+    <form id="signup-form" style="
+        background: black;
+        padding: 5px;
+        border-radius: 8px;
+        border: 1px solid black;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      ">
+      <input 
+        type="email" 
+        name="email" 
+        placeholder="SIGN UP" 
+        required 
+        style="
+          padding: 6px 10px;
+          border: none;
+          border-bottom: 1px solid transparent;
+          background: black;
+          color: white;
+          border-radius: 0;
+          outline: none;
+          font-size: 10px;
+          transition: border-color 0.2s ease;
+        "
+        onfocus="this.style.borderBottom='1px solid white';"
+        onblur="this.style.borderBottom='1px solid transparent';"
+      >
+      <button 
+        type="submit" 
+        style="
+          padding: 6px 10px;
+          background: black;
+          color: white;
+          border: 1px solid black;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+        ">&#8594;</button>
+    </form>
+    <p id="response-message" style="
+      color: white;
+      font-size: 10px;
+      margin-top: 6px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    "></p>
+  </div>
+
+  <style>
+    input::placeholder {
+      color: white;
+      opacity: 1;
+      font-size: 10px;
+    }
+    input::-moz-placeholder {
+      color: white;
+      opacity: 1;
+    }
+    input:-ms-input-placeholder {
+      color: white;
+    }
+    input:focus {
+      outline: none;
+      box-shadow: none;
+      border-bottom: 1px solid white !important;
+    }
+    @media (max-width: 768px) {
+      canvas {
+        font-size: 8px !important;
+      }
+    }
+  </style>
+
   <script>
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
@@ -97,10 +178,10 @@
       }
     }
 
-    let numPoints = 120;
-    let rotationSpeedX = 0.002;
-    let rotationSpeedY = 0.002;
-    let focalLength = 2000;
+    let numPoints = 312;
+    let rotationSpeedX = 0.0145;
+    let rotationSpeedY = 0.0145;
+    let focalLength = 1650;
     let sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.4;
     let points = [];
 
@@ -114,24 +195,24 @@
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
-function generateFibonacciSphere(n) {
-  let pts = [];
-  const phi = Math.PI * (3 - Math.sqrt(5));
-  const words = ["ABBY", "WORLD"]; // 
+    function generateFibonacciSphere(n) {
+      let pts = [];
+      const phi = Math.PI * (3 - Math.sqrt(5));
+      const words = ["ABBY", "WORLD"];
 
-  for (let i = 0; i < n; i++) {
-    let y = 1 - (i / (n - 1)) * 2;
-    let radius = Math.sqrt(1 - y * y);
-    let theta = phi * i;
-    let x = Math.cos(theta) * radius;
-    let z = Math.sin(theta) * radius;
-    let word = words[Math.floor(Math.random() * words.length)]; // 
+      for (let i = 0; i < n; i++) {
+        let y = 1 - (i / (n - 1)) * 2;
+        let radius = Math.sqrt(1 - y * y);
+        let theta = phi * i;
+        let x = Math.cos(theta) * radius;
+        let z = Math.sin(theta) * radius;
+        let word = words[Math.floor(Math.random() * words.length)];
 
-    pts.push({ x: x * sphereRadius, y: y * sphereRadius, z: z * sphereRadius, word: word });
-  }
+        pts.push({ x: x * sphereRadius, y: y * sphereRadius, z: z * sphereRadius, word: word });
+      }
 
-  return pts;
-}
+      return pts;
+    }
 
     function rotateY(point, angle) {
       const cosA = Math.cos(angle), sinA = Math.sin(angle);
@@ -147,7 +228,6 @@ function generateFibonacciSphere(n) {
 
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
       let transformedPoints = points.map(p => rotateX(rotateY(p, angleY), angleX));
       transformedPoints.sort((a, b) => b.z - a.z);
 
@@ -155,16 +235,14 @@ function generateFibonacciSphere(n) {
         let scale = focalLength / (focalLength + Math.abs(p.z));
         let x2D = canvas.width / 2 + p.x * scale;
         let y2D = canvas.height / 2 + p.y * scale;
-
         let depthFactor = (p.z + sphereRadius) / (2 * sphereRadius);
         let brightness = depthFactor * 255;
 
-        // **Hi stranger. If you are reading this, you know what you are doing. The answer is yes, it is a vibe-coded (mess) of a website. Created by a Creative Director and not a programmer. The world is up-side-down. It's amazing. **
         if (p.z < 0) {
-          brightness = Math.max(80, depthFactor * 180); // Increase visibility, but keep subtle
-          ctx.globalAlpha = 0.5; // Makes back letters more transparent
+          brightness = Math.max(80, depthFactor * 180);
+          ctx.globalAlpha = 0.5;
         } else {
-          ctx.globalAlpha = 1.0; // Front letters are fully visible
+          ctx.globalAlpha = 1.0;
         }
 
         let fontSize = p.z > 0 ? (8 + 6 * scale) : (6 + 4 * scale);
@@ -175,7 +253,7 @@ function generateFibonacciSphere(n) {
         ctx.fillText(p.word, x2D, y2D);
       });
 
-      ctx.globalAlpha = 1.0; // Reset alpha to avoid issues
+      ctx.globalAlpha = 1.0;
       angleX += rotationSpeedX;
       angleY += rotationSpeedY;
       requestAnimationFrame(draw);
@@ -183,7 +261,6 @@ function generateFibonacciSphere(n) {
 
     draw();
 
-    // Slider Event Listeners
     document.getElementById("numPointsSlider").oninput = function() {
       numPoints = parseInt(this.value);
       document.getElementById("numPointsVal").textContent = this.value;
@@ -203,111 +280,36 @@ function generateFibonacciSphere(n) {
     };
   </script>
 
-<!-- E-postformulär med vit text, pil och fade-out-meddelande -->
-<div style="position: absolute; top: 10px; right: 10px; z-index: 999;">
-  <form id="signup-form" style="
-      background: black;
-      padding: 5px;
-      border-radius: 8px;
-      border: 1px solid black;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    ">
-    <input 
-      type="email" 
-      name="email" 
-      placeholder="SIGN UP" 
-      required 
-      style="
-        padding: 6px 10px;
-        border: none;
-        border-bottom: 1px solid transparent;
-        background: black;
-        color: white;
-        border-radius: 0;
-        outline: none;
-        font-size: 10px;
-        transition: border-color 0.2s ease;
-      "
-      onfocus="this.style.borderBottom='1px solid white';"
-      onblur="this.style.borderBottom='1px solid transparent';"
-    >
-    <button 
-      type="submit" 
-      style="
-        padding: 6px 10px;
-        background: black;
-        color: white;
-        border: 1px solid black;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-      ">&#8594;</button>
-  </form>
-  <p id="response-message" style="
-    color: white;
-    font-size: 10px;
-    margin-top: 6px;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  "></p>
-</div>
+  <script>
+    const form = document.getElementById('signup-form');
+    const responseMsg = document.getElementById('response-message');
 
-<style>
-  input::placeholder {
-    color: white;
-    opacity: 1;
-    font-size: 10px;
-  }
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const formData = new FormData(form);
 
-  input::-moz-placeholder {
-    color: white;
-    opacity: 1;
-  }
-
-  input:-ms-input-placeholder {
-    color: white;
-  }
-</style>
-
-<script>
-  const form = document.getElementById('signup-form');
-  const responseMsg = document.getElementById('response-message');
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const formData = new FormData(form);
-
-    fetch('https://script.google.com/macros/s/AKfycbwjikUjHXYOIi_5X0y3kDtIgNph8RxLf6bIFcy12ndO8eIzeU2UssNexEpSlCkePjmEbw/exec', {
-      method: 'POST',
-      body: new URLSearchParams(formData)
-    })
-    .then(response => response.text())
-    .then(data => {
-      showMessage('THANK YOU');
-      form.reset();
-    })
-    .catch(error => {
-      showMessage('ERROR');
-      console.error('Error:', error);
+      fetch('https://script.google.com/macros/s/AKfycbwjikUjHXYOIi_5X0y3kDtIgNph8RxLf6bIFcy12ndO8eIzeU2UssNexEpSlCkePjmEbw/exec', {
+        method: 'POST',
+        body: new URLSearchParams(formData)
+      })
+      .then(response => response.text())
+      .then(data => {
+        showMessage('THANK YOU');
+        form.reset();
+      })
+      .catch(error => {
+        showMessage('ERROR');
+        console.error('Error:', error);
+      });
     });
-  });
 
-  function showMessage(message) {
-    responseMsg.textContent = message;
-    responseMsg.style.opacity = 1;
-
-    // Döljer meddelandet efter 3 sekunder
-    setTimeout(() => {
-      responseMsg.style.opacity = 0;
-    }, 3000);
-  }
-</script>
-</script>
-
-
-
-
+    function showMessage(message) {
+      responseMsg.textContent = message;
+      responseMsg.style.opacity = 1;
+      setTimeout(() => {
+        responseMsg.style.opacity = 0;
+      }, 3000);
+    }
+  </script>
 </body>
 </html>
