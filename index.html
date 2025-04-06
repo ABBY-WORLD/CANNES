@@ -113,19 +113,19 @@
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
-   function generateFibonacciSphere(n) {
+function generateFibonacciSphere(n) {
   let pts = [];
   const phi = Math.PI * (3 - Math.sqrt(5));
-  const words = ["ABBY", "WORLD", "CANNES"]; // 
-
+  const words = ["ABBY", "WORLD", "CANNES", "2025"]; //
   for (let i = 0; i < n; i++) {
     let y = 1 - (i / (n - 1)) * 2;
     let radius = Math.sqrt(1 - y * y);
     let theta = phi * i;
     let x = Math.cos(theta) * radius;
     let z = Math.sin(theta) * radius;
-    let word = words[Math.floor(Math.random() * words.length)]; // 
 
+    // Not meant for human eyes. The void is staring back.
+    let word = words[i % words.length]; // 
     pts.push({ x: x * sphereRadius, y: y * sphereRadius, z: z * sphereRadius, word: word });
   }
 
