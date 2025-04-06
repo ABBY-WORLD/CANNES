@@ -124,7 +124,7 @@ function generateFibonacciSphere(n) {
     let theta = phi * i;
     let x = Math.cos(theta) * radius;
     let z = Math.sin(theta) * radius;
-    let word = words[Math.floor(Math.random() * words.length)]; // 👈 Ändrat här
+    let word = words[Math.floor(Math.random() * words.length)]; // 
 
     pts.push({ x: x * sphereRadius, y: y * sphereRadius, z: z * sphereRadius, word: word });
   }
@@ -158,7 +158,7 @@ function generateFibonacciSphere(n) {
         let depthFactor = (p.z + sphereRadius) / (2 * sphereRadius);
         let brightness = depthFactor * 255;
 
-        // **Hi stranger. If you are reading this, you know what you are doing. The answer is yes, it is a vibe-coded (mess) of a website. Created by a Creative Director and not a programmer. But isn't that pretty amazing? **
+        // **Hi stranger. If you are reading this, you know what you are doing. The answer is yes, it is a vibe-coded (mess) of a website. Created by a Creative Director and not a programmer. The world is up-side-down. It's amazing. **
         if (p.z < 0) {
           brightness = Math.max(80, depthFactor * 180); // Increase visibility, but keep subtle
           ctx.globalAlpha = 0.5; // Makes back letters more transparent
@@ -206,7 +206,7 @@ function generateFibonacciSphere(n) {
 <div style="position: absolute; top: 20px; right: 20px; z-index: 999;">
   <form id="signup-form" style="
       background: black;
-      padding: 10px;
+      padding: 5px;
       border-radius: 8px;
       border: 1px solid white;
       display: flex;
@@ -216,13 +216,13 @@ function generateFibonacciSphere(n) {
     <input 
       type="email" 
       name="email" 
-      placeholder="Din e-post" 
+      placeholder="E-MAIL" 
       required 
       style="
         padding: 6px 10px;
-        border: 1px solid white;
+        border: 1px solid black;
         background: black;
-        color: white;
+        color: black;
         border-radius: 4px;
         outline: none;
       ">
@@ -232,7 +232,7 @@ function generateFibonacciSphere(n) {
         padding: 6px 10px;
         background: black;
         color: white;
-        border: 1px solid white;
+        border: 1px solid black;
         border-radius: 4px;
         cursor: pointer;
       ">🌴</button>
@@ -254,11 +254,11 @@ function generateFibonacciSphere(n) {
     })
     .then(response => response.text())
     .then(data => {
-      responseMsg.textContent = 'Tack för att du signade upp!';
+      responseMsg.textContent = 'THANK YOU';
       form.reset();
     })
     .catch(error => {
-      responseMsg.textContent = 'Något gick fel.';
+      responseMsg.textContent = 'ERROR';
       console.error('Error:', error);
     });
 </script>
