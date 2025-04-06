@@ -201,5 +201,42 @@ function generateFibonacciSphere(n) {
       document.getElementById("focalVal").textContent = this.value;
     };
   </script>
+
+<!-- Signup-formulär, placeras precis före </body> -->
+<div style="position: absolute; top: 20px; right: 20px; z-index: 999;">
+  <form id="signup-form" style="background: rgba(0,0,0,0.7); padding: 10px; border-radius: 8px;">
+    <input type="email" name="email" placeholder="Din e-post" required style="padding: 5px;">
+    <button type="submit" style="padding: 5px;">Sign up</button>
+  </form>
+  <p id="response-message" style="color: white; font-size: 0.9em;"></p>
+</div>
+
+<script>
+  const form = document.getElementById('signup-form');
+  const responseMsg = document.getElementById('response-message');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const formData = new FormData(form);
+
+    fetch('DIN_WEBAPP_URL', {
+      method: 'POST',
+      body: new URLSearchParams(formData)
+    })
+    .then(response => response.text())
+    .then(data => {
+      responseMsg.textContent = 'THANK YOU';
+      form.reset();
+    })
+    .catch(error => {
+      responseMsg.textContent = 'ERROR';
+      console.error('Error:', error);
+    });
+  });
+</script>
+
+
+
+
 </body>
 </html>
