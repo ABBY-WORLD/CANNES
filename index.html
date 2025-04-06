@@ -202,7 +202,7 @@ function generateFibonacciSphere(n) {
     };
   </script>
 
-<!-- E-postformulär med svart/vit design och palm-emoji -->
+<!-- E-postformulär med svart/vit design och ASCII-pil -->
 <div style="position: absolute; top: 10px; right: 10px; z-index: 999;">
   <form id="signup-form" style="
       background: black;
@@ -220,12 +220,18 @@ function generateFibonacciSphere(n) {
       required 
       style="
         padding: 6px 10px;
-        border: 1px solid black;
+        border: none;
+        border-bottom: 1px solid transparent;
         background: black;
-        color: black;
-        border-radius: 4px;
+        color: white;
+        border-radius: 0;
         outline: none;
-      ">
+        font-size: 10px;
+        transition: border-color 0.2s ease;
+      "
+      onfocus="this.style.borderBottom='1px solid white';"
+      onblur="this.style.borderBottom='1px solid transparent';"
+    >
     <button 
       type="submit" 
       style="
@@ -235,6 +241,7 @@ function generateFibonacciSphere(n) {
         border: 1px solid black;
         border-radius: 4px;
         cursor: pointer;
+        font-size: 16px;
       ">&#8594;</button>
   </form>
   <p id="response-message" style="color: white; font-size: 0.9em; margin-top: 6px;"></p>
