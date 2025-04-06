@@ -113,20 +113,24 @@
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
-    function generateFibonacciSphere(n) {
-      let pts = [];
-      const phi = Math.PI * (3 - Math.sqrt(5));
-      for (let i = 0; i < n; i++) {
-        let y = 1 - (i / (n - 1)) * 2;
-        let radius = Math.sqrt(1 - y * y);
-        let theta = phi * i;
-        let x = Math.cos(theta) * radius;
-        let z = Math.sin(theta) * radius;
-        let word = Math.random() > 0.5 ? "ABBY" : "WORLD" : "CANNES";
-        pts.push({ x: x * sphereRadius, y: y * sphereRadius, z: z * sphereRadius, word: word });
-      }
-      return pts;
-    }
+   function generateFibonacciSphere(n) {
+  let pts = [];
+  const phi = Math.PI * (3 - Math.sqrt(5));
+  const words = ["ABBY", "WORLD", "CANNES"]; // 
+
+  for (let i = 0; i < n; i++) {
+    let y = 1 - (i / (n - 1)) * 2;
+    let radius = Math.sqrt(1 - y * y);
+    let theta = phi * i;
+    let x = Math.cos(theta) * radius;
+    let z = Math.sin(theta) * radius;
+    let word = words[Math.floor(Math.random() * words.length)]; // 
+
+    pts.push({ x: x * sphereRadius, y: y * sphereRadius, z: z * sphereRadius, word: word });
+  }
+
+  return pts;
+}
 
     function rotateY(point, angle) {
       const cosA = Math.cos(angle), sinA = Math.sin(angle);
