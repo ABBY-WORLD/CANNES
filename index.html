@@ -202,13 +202,42 @@ function generateFibonacciSphere(n) {
     };
   </script>
 
-<!-- Signup-formulär, placeras precis före </body> -->
+<!-- E-postformulär med svart/vit design och palm-emoji -->
 <div style="position: absolute; top: 20px; right: 20px; z-index: 999;">
-  <form id="signup-form" style="background: rgba(0,0,0,0.7); padding: 10px; border-radius: 8px;">
-    <input type="email" name="email" placeholder="Din e-post" required style="padding: 5px;">
-    <button type="submit" style="padding: 5px;">Sign up</button>
+  <form id="signup-form" style="
+      background: black;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid white;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    ">
+    <input 
+      type="email" 
+      name="email" 
+      placeholder="Din e-post" 
+      required 
+      style="
+        padding: 6px 10px;
+        border: 1px solid white;
+        background: black;
+        color: white;
+        border-radius: 4px;
+        outline: none;
+      ">
+    <button 
+      type="submit" 
+      style="
+        padding: 6px 10px;
+        background: black;
+        color: white;
+        border: 1px solid white;
+        border-radius: 4px;
+        cursor: pointer;
+      ">🌴</button>
   </form>
-  <p id="response-message" style="color: white; font-size: 0.9em;"></p>
+  <p id="response-message" style="color: white; font-size: 0.9em; margin-top: 6px;"></p>
 </div>
 
 <script>
@@ -225,14 +254,14 @@ function generateFibonacciSphere(n) {
     })
     .then(response => response.text())
     .then(data => {
-      responseMsg.textContent = 'THANK YOU';
+      responseMsg.textContent = 'Tack för att du signade upp!';
       form.reset();
     })
     .catch(error => {
-      responseMsg.textContent = 'ERROR';
+      responseMsg.textContent = 'Något gick fel.';
       console.error('Error:', error);
     });
-  });
+</script>
 </script>
 
 
