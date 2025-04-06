@@ -202,7 +202,7 @@ function generateFibonacciSphere(n) {
     };
   </script>
 
-<!-- E-postformulär med svart/vit design och ASCII-pil -->
+<!-- E-postformulär med vit text, pil och fade-out-meddelande -->
 <div style="position: absolute; top: 10px; right: 10px; z-index: 999;">
   <form id="signup-form" style="
       background: black;
@@ -238,14 +238,37 @@ function generateFibonacciSphere(n) {
         padding: 6px 10px;
         background: black;
         color: white;
-        border: 1px solid black;
+        border: 1px solid white;
         border-radius: 4px;
         cursor: pointer;
         font-size: 16px;
       ">&#8594;</button>
   </form>
-  <p id="response-message" style="color: white; font-size: 0.9em; margin-top: 6px;"></p>
+  <p id="response-message" style="
+    color: white;
+    font-size: 10px;
+    margin-top: 6px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  "></p>
 </div>
+
+<style>
+  input::placeholder {
+    color: white;
+    opacity: 1;
+    font-size: 10px;
+  }
+
+  input::-moz-placeholder {
+    color: white;
+    opacity: 1;
+  }
+
+  input:-ms-input-placeholder {
+    color: white;
+  }
+</style>
 
 <script>
   const form = document.getElementById('signup-form');
@@ -261,13 +284,24 @@ function generateFibonacciSphere(n) {
     })
     .then(response => response.text())
     .then(data => {
-      responseMsg.textContent = 'THANK YOU';
+      showMessage('THANK YOU');
       form.reset();
     })
     .catch(error => {
-      responseMsg.textContent = 'ERROR';
+      showMessage('ERROR');
       console.error('Error:', error);
     });
+  });
+
+  function showMessage(message) {
+    responseMsg.textContent = message;
+    responseMsg.style.opacity = 1;
+
+    // Döljer meddelandet efter 3 sekunder
+    setTimeout(() => {
+      responseMsg.style.opacity = 0;
+    }, 3000);
+  }
 </script>
 </script>
 
