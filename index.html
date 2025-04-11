@@ -15,20 +15,23 @@
     canvas {
       display: block;
     }
-    #header {
+    #ui-wrapper {
       position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
+      top: 50%;
+      width: 100vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transform: translateY(-50%);
+      padding: 0 5vw;
+      z-index: 999;
+      pointer-events: none;
+    }
+    #header, #signup-form-container {
       color: white;
       font-size: 10px;
       font-family: Arial, sans-serif;
-    }
-    #signup-form-container {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 999;
+      pointer-events: auto;
     }
     #signup-form {
       background: black;
@@ -68,49 +71,38 @@
     }
     #audio-icon {
       position: fixed;
-      top: 8px;
-      right: 8px;
+      top: 10px;
+      right: 10px;
       color: white;
       font-size: 12px;
       z-index: 1000;
-      user-select: none;
+      cursor: pointer;
     }
     @media (max-width: 768px) {
-      #header {
-        top: 10vh;
-      }
-      #signup-form-container {
-        bottom: 10vh;
+      #ui-wrapper {
+        flex-direction: column;
+        gap: 20vh;
+        align-items: center;
+        justify-content: center;
       }
       canvas {
         transform: scale(0.85);
         image-rendering: auto;
       }
     }
-    @media (min-width: 769px) {
-      #header {
-        top: 40%;
-        left: 5vw;
-        transform: none;
-      }
-      #signup-form-container {
-        top: 50%;
-        right: 5vw;
-        left: auto;
-        transform: translateY(-50%);
-      }
-    }
   </style>
 </head>
 <body>
-  <div id="header">CANNES 2025</div>
-  <div id="audio-icon">🔊</div>
+  <div id="audio-icon">&#128266;</div>
 
-  <div id="signup-form-container">
-    <form action="https://formspree.io/f/xldjayre" method="POST" id="signup-form">
-      <input type="email" name="email" placeholder="SIGN UP" required>
-    </form>
-    <p id="response-message"></p>
+  <div id="ui-wrapper">
+    <div id="header">CANNES 2025</div>
+    <div id="signup-form-container">
+      <form action="https://formspree.io/f/xldjayre" method="POST" id="signup-form">
+        <input type="email" name="email" placeholder="SIGN UP" required>
+      </form>
+      <p id="response-message"></p>
+    </div>
   </div>
 
   <audio id="bgMusic" autoplay loop>
@@ -126,7 +118,7 @@
     const audioIcon = document.getElementById("audio-icon");
     let musicMuted = false;
 
-    document.addEventListener("click", () => {
+    audioIcon.addEventListener("click", () => {
       if (musicMuted) {
         bgMusic.play();
         audioIcon.textContent = "🔊";
