@@ -14,16 +14,11 @@
     }
     canvas {
       display: block;
-      image-rendering: optimizeSpeed;
-      image-rendering: -moz-crisp-edges;
-      image-rendering: -webkit-optimize-contrast;
-      image-rendering: pixelated;
-      image-rendering: optimize-contrast;
     }
     #header {
       position: fixed;
-      top: 42%;
-      left: 5vw;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 10;
       color: white;
       font-size: 10px;
@@ -31,9 +26,8 @@
     }
     #signup-form-container {
       position: fixed;
-      top: 50%;
-      right: 5vw;
-      transform: translateY(-50%);
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 999;
     }
     #signup-form {
@@ -42,8 +36,8 @@
       border-radius: 8px;
       border: 1px solid black;
       display: flex;
-      gap: 8px;
       align-items: center;
+      justify-content: center;
     }
     #signup-form input[type="email"] {
       padding: 6px 10px;
@@ -55,23 +49,10 @@
       outline: none;
       font-size: 10px;
       transition: border-color 0.2s ease;
+      text-align: center;
     }
     #signup-form input[type="email"]:focus {
       border-bottom: 1px solid white;
-    }
-    #signup-form button {
-      padding: 6px 10px;
-      background: black;
-      color: white;
-      border: 1px solid black;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    input::placeholder {
-      color: white;
-      opacity: 1;
-      font-size: 10px;
     }
     #response-message {
       color: white;
@@ -80,33 +61,54 @@
       opacity: 0;
       transition: opacity 0.5s ease;
     }
-
+    input::placeholder {
+      color: white;
+      opacity: 1;
+      font-size: 10px;
+    }
+    #audio-icon {
+      position: fixed;
+      top: 8px;
+      right: 8px;
+      color: white;
+      font-size: 12px;
+      z-index: 1000;
+      user-select: none;
+    }
     @media (max-width: 768px) {
       #header {
-        top: 8vh;
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
+        top: 10vh;
       }
       #signup-form-container {
-        bottom: 5vh;
-        top: auto;
-        right: 50%;
-        transform: translateX(50%);
+        bottom: 10vh;
       }
       canvas {
         transform: scale(0.85);
+        image-rendering: auto;
+      }
+    }
+    @media (min-width: 769px) {
+      #header {
+        top: 40%;
+        left: 5vw;
+        transform: none;
+      }
+      #signup-form-container {
+        top: 50%;
+        right: 5vw;
+        left: auto;
+        transform: translateY(-50%);
       }
     }
   </style>
 </head>
 <body>
   <div id="header">CANNES 2025</div>
+  <div id="audio-icon">🔊</div>
 
   <div id="signup-form-container">
     <form action="https://formspree.io/f/xldjayre" method="POST" id="signup-form">
       <input type="email" name="email" placeholder="SIGN UP" required>
-      <button type="submit">&#8594;</button>
     </form>
     <p id="response-message"></p>
   </div>
@@ -121,14 +123,17 @@
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
     const bgMusic = document.getElementById("bgMusic");
+    const audioIcon = document.getElementById("audio-icon");
     let musicMuted = false;
 
     document.addEventListener("click", () => {
       if (musicMuted) {
         bgMusic.play();
+        audioIcon.textContent = "🔊";
         musicMuted = false;
       } else {
         bgMusic.pause();
+        audioIcon.textContent = "🔇";
         musicMuted = true;
       }
     });
@@ -136,7 +141,9 @@
     let rotationSpeedX = 0.005;
     let rotationSpeedY = 0.005;
     let focalLength = 1936;
+    let targetFocalLength = 3000;
     let numPoints = 261;
+    let targetPoints = 261;
     let sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.4;
     let points = [];
 
@@ -196,21 +203,22 @@
       mouseY = e.clientY / window.innerHeight;
     });
 
-    // Animate FOV (focalLength)
-    let fovIncreasing = true;
     setInterval(() => {
-      fovIncreasing = !fovIncreasing;
-    }, 5000);
+      targetFocalLength = targetFocalLength === 3000 ? 1200 : 3000;
+      targetPoints = targetPoints === 400 ? 100 : 400;
+    }, 6000);
 
-    function updateFOV() {
-      const target = fovIncreasing ? 3000 : 1200;
-      focalLength += (target - focalLength) * 0.02;
+    function animateValues() {
+      focalLength += (targetFocalLength - focalLength) * 0.02;
+      if (Math.abs(targetPoints - numPoints) > 1) {
+        numPoints += (targetPoints - numPoints) * 0.05;
+        points = generateFibonacciSphere(Math.round(numPoints));
+      }
     }
 
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      updateFOV();
+      animateValues();
 
       rotationSpeedX = 0.001 + (mouseY - 0.5) * 0.02;
       rotationSpeedY = 0.001 + (mouseX - 0.5) * 0.02;
@@ -244,7 +252,6 @@
 
     draw();
 
-    // Formspree form logic
     const form = document.getElementById('signup-form');
     const responseMsg = document.getElementById('response-message');
 
