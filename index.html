@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ABBY.WORLD Cannes 2025</title>
-  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="icon" href="favicon.png" type="image/png" />
   <style>
     body {
       margin: 0;
@@ -22,7 +22,6 @@
       transform: translateY(-50%);
       color: white;
       font-size: 10px;
-      font-family: Arial, sans-serif;
       z-index: 999;
     }
     #signup-form-container {
@@ -113,7 +112,7 @@
     <p id="response-message"></p>
   </div>
 
-  <audio id="bgMusic" loop autoplay muted>
+  <audio id="bgMusic" loop>
     <source src="https://raw.githubusercontent.com/ABBY-WORLD/FIATLUX/main/fiatlux.mp3" type="audio/mpeg">
   </audio>
 
@@ -125,26 +124,39 @@
     const bgMusic = document.getElementById("bgMusic");
     const audioIcon = document.getElementById("audio-icon");
     const audioPath = document.getElementById("audio-icon-path");
-    let musicMuted = false;
 
-    audioIcon.addEventListener("click", () => {
-      if (musicMuted) {
-        bgMusic.play();
-        audioPath.setAttribute("d", "M3 10v4h4l5 5V5l-5 5H3z");
+    let musicMuted = false;
+    let musicStarted = false;
+
+    document.addEventListener("click", () => {
+      if (!musicStarted) {
+        bgMusic.play().catch(err => console.log("Autoplay error:", err));
+        musicStarted = true;
         musicMuted = false;
-      } else {
+        audioPath.setAttribute("d", "M3 10v4h4l5 5V5l-5 5H3z");
+      }
+    });
+
+    audioIcon.addEventListener("click", (e) => {
+      e.stopPropagation();
+      musicMuted = !musicMuted;
+      if (musicMuted) {
         bgMusic.pause();
         audioPath.setAttribute("d", "M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.06c1.48-.74 2.5-2.26 2.5-4.03z M19 12c0 2.21-1.2 4.15-3 5.19v-2.17c.61-.55 1-1.35 1-2.22s-.39-1.67-1-2.22V6.81c1.8 1.04 3 2.98 3 5.19z M3 10v4h4l5 5V5l-5 5H3z");
-        musicMuted = true;
+      } else {
+        bgMusic.play();
+        audioPath.setAttribute("d", "M3 10v4h4l5 5V5l-5 5H3z");
       }
     });
 
     let rotationSpeedX = 0.005;
     let rotationSpeedY = 0.005;
     let focalLength = 3000;
-    let targetFocalLength = 300;
+    let targetFocalLength = 3000;
     let numPoints = 261;
     let targetPoints = 261;
+    let fovDirection = -1;
+    let pointsDirection = 1;
     let sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.4;
     let points = [];
 
@@ -176,24 +188,42 @@
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
-    function rotateY(point, angle) {
-      const cosA = Math.cos(angle), sinA = Math.sin(angle);
+    function rotateY(p, a) {
+      const cosA = Math.cos(a), sinA = Math.sin(a);
       return {
-        x: cosA * point.x + sinA * point.z,
-        y: point.y,
-        z: -sinA * point.x + cosA * point.z,
-        word: point.word
+        x: cosA * p.x + sinA * p.z,
+        y: p.y,
+        z: -sinA * p.x + cosA * p.z,
+        word: p.word
       };
     }
 
-    function rotateX(point, angle) {
-      const cosA = Math.cos(angle), sinA = Math.sin(angle);
+    function rotateX(p, a) {
+      const cosA = Math.cos(a), sinA = Math.sin(a);
       return {
-        x: point.x,
-        y: cosA * point.y - sinA * point.z,
-        z: sinA * point.y + cosA * point.z,
-        word: point.word
+        x: p.x,
+        y: cosA * p.y - sinA * p.z,
+        z: sinA * p.y + cosA * p.z,
+        word: p.word
       };
+    }
+
+    function animateTargets() {
+      if (targetFocalLength >= 3000) fovDirection = -1;
+      if (targetFocalLength <= 1200) fovDirection = 1;
+      targetFocalLength += 5 * fovDirection;
+
+      if (targetPoints >= 400) pointsDirection = -1;
+      if (targetPoints <= 100) pointsDirection = 1;
+      targetPoints += 1 * pointsDirection;
+    }
+
+    function animateValues() {
+      focalLength += (targetFocalLength - focalLength) * 0.02;
+      if (Math.abs(targetPoints - numPoints) > 1) {
+        numPoints += (targetPoints - numPoints) * 0.05;
+        points = generateFibonacciSphere(Math.round(numPoints));
+      }
     }
 
     let angleX = 0, angleY = 0;
@@ -204,40 +234,28 @@
       mouseY = e.clientY / window.innerHeight;
     });
 
-    setInterval(() => {
-      targetFocalLength = targetFocalLength === 3000 ? 1200 : 3000;
-      targetPoints = targetPoints === 400 ? 100 : 400;
-    }, 6000);
-
-    function animateValues() {
-      focalLength += (targetFocalLength - focalLength) * 0.02;
-      if (Math.abs(targetPoints - numPoints) > 1) {
-        numPoints += (targetPoints - numPoints) * 0.05;
-        points = generateFibonacciSphere(Math.round(numPoints));
-      }
-    }
-
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      animateTargets();
       animateValues();
 
       rotationSpeedX = 0.001 + (mouseY - 0.5) * 0.02;
       rotationSpeedY = 0.001 + (mouseX - 0.5) * 0.02;
 
-      let transformedPoints = points.map(p => rotateX(rotateY(p, angleY), angleX));
-      transformedPoints.sort((a, b) => b.z - a.z);
+      let transformed = points.map(p => rotateX(rotateY(p, angleY), angleX));
+      transformed.sort((a, b) => b.z - a.z);
 
-      transformedPoints.forEach(p => {
-        let scale = focalLength / (focalLength + Math.abs(p.z));
-        let x2D = canvas.width / 2 + p.x * scale;
-        let y2D = canvas.height / 2 + p.y * scale;
+      transformed.forEach(p => {
+        const scale = focalLength / (focalLength + Math.abs(p.z));
+        const x2D = canvas.width / 2 + p.x * scale;
+        const y2D = canvas.height / 2 + p.y * scale;
 
-        let depthFactor = (p.z + sphereRadius) / (2 * sphereRadius);
-        let brightness = depthFactor * 255;
+        const depth = (p.z + sphereRadius) / (2 * sphereRadius);
+        const brightness = depth * 255;
 
         ctx.globalAlpha = p.z < 0 ? 0.5 : 1.0;
-        let fontScale = isMobile ? 0.8 : 1.0;
-        let fontSize = p.z > 0 ? ((8 + 6 * scale) * fontScale) : ((6 + 4 * scale) * fontScale);
+        const fontScale = isMobile ? 0.8 : 1.0;
+        const fontSize = p.z > 0 ? ((8 + 6 * scale) * fontScale) : ((6 + 4 * scale) * fontScale);
         ctx.fillStyle = `rgb(${brightness},${brightness},${brightness})`;
         ctx.font = `${fontSize}px Arial`;
         ctx.textAlign = "center";
