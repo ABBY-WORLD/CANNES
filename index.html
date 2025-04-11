@@ -14,12 +14,16 @@
     }
     canvas {
       display: block;
+      image-rendering: optimizeSpeed;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: pixelated;
+      image-rendering: optimize-contrast;
     }
     #header {
       position: fixed;
-      top: 50%;
+      top: 42%;
       left: 5vw;
-      transform: translateY(-50%);
       z-index: 10;
       color: white;
       font-size: 10px;
@@ -79,16 +83,19 @@
 
     @media (max-width: 768px) {
       #header {
-        top: auto;
-        bottom: 10vh;
+        top: 8vh;
         left: 50%;
         transform: translateX(-50%);
+        text-align: center;
       }
       #signup-form-container {
+        bottom: 5vh;
         top: auto;
-        bottom: 4vh;
         right: 50%;
         transform: translateX(50%);
+      }
+      canvas {
+        transform: scale(0.85);
       }
     }
   </style>
@@ -132,6 +139,8 @@
     let numPoints = 261;
     let sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.4;
     let points = [];
+
+    const isMobile = window.innerWidth <= 768;
 
     function generateFibonacciSphere(n) {
       let pts = [];
@@ -195,7 +204,7 @@
 
     function updateFOV() {
       const target = fovIncreasing ? 3000 : 1200;
-      focalLength += (target - focalLength) * 0.01;
+      focalLength += (target - focalLength) * 0.02;
     }
 
     function draw() {
@@ -218,7 +227,8 @@
         let brightness = depthFactor * 255;
 
         ctx.globalAlpha = p.z < 0 ? 0.5 : 1.0;
-        let fontSize = p.z > 0 ? (8 + 6 * scale) : (6 + 4 * scale);
+        let fontScale = isMobile ? 0.8 : 1.0;
+        let fontSize = p.z > 0 ? ((8 + 6 * scale) * fontScale) : ((6 + 4 * scale) * fontScale);
         ctx.fillStyle = `rgb(${brightness},${brightness},${brightness})`;
         ctx.font = `${fontSize}px Arial`;
         ctx.textAlign = "center";
