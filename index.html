@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ABBY.WORLD Cannes 2025</title>
-  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="icon" href="favicon.png" type="image/png" />
   <style>
     body {
       margin: 0;
@@ -102,19 +102,19 @@
 </head>
 <body>
   <svg id="audio-icon" viewBox="0 0 24 24">
-    <path id="audio-icon-path" d="M3 10v4h4l5 5V5l-5 5H3z" fill="white"/>
+    <path id="audio-icon-path" d="M3 10v4h4l5 5V5l-5 5H3z" fill="white" />
   </svg>
 
   <div id="header">CANNES 2025</div>
   <div id="signup-form-container">
     <form action="https://formspree.io/f/xldjayre" method="POST" id="signup-form">
-      <input type="email" name="email" placeholder="SIGN UP" required>
+      <input type="email" name="email" placeholder="SIGN UP" required />
     </form>
     <p id="response-message"></p>
   </div>
 
   <audio id="bgMusic" loop>
-    <source src="https://raw.githubusercontent.com/ABBY-WORLD/FIATLUX/main/fiatlux.mp3" type="audio/mpeg">
+    <source src="https://raw.githubusercontent.com/ABBY-WORLD/FIATLUX/main/fiatlux.mp3" type="audio/mpeg" />
   </audio>
 
   <canvas id="canvas"></canvas>
@@ -125,11 +125,9 @@
     const bgMusic = document.getElementById("bgMusic");
     const audioIcon = document.getElementById("audio-icon");
     const audioPath = document.getElementById("audio-icon-path");
-
     let musicMuted = false;
     let musicStarted = false;
 
-    // Start music on first click anywhere
     document.addEventListener("click", () => {
       if (!musicStarted) {
         bgMusic.play().catch(err => console.log("Autoplay error:", err));
@@ -139,7 +137,6 @@
       }
     });
 
-    // Toggle music only via icon
     audioIcon.addEventListener("click", (e) => {
       e.stopPropagation();
       musicMuted = !musicMuted;
@@ -155,9 +152,9 @@
     let rotationSpeedX = 0.005;
     let rotationSpeedY = 0.005;
     let focalLength = 3000;
-    let targetFocalLength = 300;
+    let targetFocalLength = 1200;
     let numPoints = 261;
-    let targetPoints = 261;
+    let targetPoints = 400;
     let sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.4;
     let points = [];
 
@@ -217,13 +214,29 @@
       mouseY = e.clientY / window.innerHeight;
     });
 
-    setInterval(() => {
-      targetFocalLength = targetFocalLength === 3000 ? 300 : 3000;
-      targetPoints = targetPoints === 400 ? 100 : 400; 
-    }, 6000);
+    // FOV timer med slumpad delay
+    function loopFOV() {
+      targetFocalLength = (targetFocalLength === 3000) ? 300 : 3000;
+      const delay = Math.random() * 4000 + 3000; // 3–7 sek
+      setTimeout(loopFOV, delay);
+    }
+
+    // WordCount timer med slumpad delay
+    function loopWordCount() {
+      targetPoints = (targetPoints === 100) ? 400 : 100;
+      const delay = Math.random() * 4000 + 3000; // 3–7 sek
+      setTimeout(loopWordCount, delay);
+    }
+
+    loopFOV();
+    loopWordCount();
 
     function animateValues() {
       focalLength += (targetFocalLength - focalLength) * 0.02;
+      if (Math.abs(targetPoints - numPoints) > 1) {
+        numPoints += (targetPoints - numPoints) * 0.05;
+        points = generateFibonacciSphere(Math.round(numPoints));
+      }
     }
 
     function draw() {
