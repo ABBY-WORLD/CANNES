@@ -15,23 +15,22 @@
     canvas {
       display: block;
     }
-    #ui-wrapper {
+    #header {
       position: fixed;
       top: 50%;
-      width: 100vw;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      left: 5vw;
       transform: translateY(-50%);
-      padding: 0 5vw;
-      z-index: 999;
-      pointer-events: none;
-    }
-    #header, #signup-form-container {
       color: white;
       font-size: 10px;
       font-family: Arial, sans-serif;
-      pointer-events: auto;
+      z-index: 999;
+    }
+    #signup-form-container {
+      position: fixed;
+      top: 50%;
+      right: 5vw;
+      transform: translateY(-50%);
+      z-index: 999;
     }
     #signup-form {
       background: black;
@@ -73,17 +72,26 @@
       position: fixed;
       top: 10px;
       right: 10px;
-      color: white;
-      font-size: 12px;
+      width: 16px;
+      height: 16px;
       z-index: 1000;
       cursor: pointer;
+      fill: white;
     }
     @media (max-width: 768px) {
-      #ui-wrapper {
-        flex-direction: column;
-        gap: 20vh;
-        align-items: center;
-        justify-content: center;
+      #header {
+        top: 10vh;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+      }
+      #signup-form-container {
+        top: auto;
+        bottom: 10vh;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        text-align: center;
       }
       canvas {
         transform: scale(0.85);
@@ -93,19 +101,19 @@
   </style>
 </head>
 <body>
-  <div id="audio-icon">&#128266;</div>
+  <svg id="audio-icon" viewBox="0 0 24 24">
+    <path id="audio-icon-path" d="M3 10v4h4l5 5V5l-5 5H3z" fill="white"/>
+  </svg>
 
-  <div id="ui-wrapper">
-    <div id="header">CANNES 2025</div>
-    <div id="signup-form-container">
-      <form action="https://formspree.io/f/xldjayre" method="POST" id="signup-form">
-        <input type="email" name="email" placeholder="SIGN UP" required>
-      </form>
-      <p id="response-message"></p>
-    </div>
+  <div id="header">CANNES 2025</div>
+  <div id="signup-form-container">
+    <form action="https://formspree.io/f/xldjayre" method="POST" id="signup-form">
+      <input type="email" name="email" placeholder="SIGN UP" required>
+    </form>
+    <p id="response-message"></p>
   </div>
 
-  <audio id="bgMusic" autoplay loop>
+  <audio id="bgMusic" loop autoplay>
     <source src="https://raw.githubusercontent.com/ABBY-WORLD/FIATLUX/main/fiatlux.mp3" type="audio/mpeg">
   </audio>
 
@@ -116,16 +124,17 @@
     const ctx = canvas.getContext("2d");
     const bgMusic = document.getElementById("bgMusic");
     const audioIcon = document.getElementById("audio-icon");
+    const audioPath = document.getElementById("audio-icon-path");
     let musicMuted = false;
 
     audioIcon.addEventListener("click", () => {
       if (musicMuted) {
         bgMusic.play();
-        audioIcon.textContent = "🔊";
+        audioPath.setAttribute("d", "M3 10v4h4l5 5V5l-5 5H3z");
         musicMuted = false;
       } else {
         bgMusic.pause();
-        audioIcon.textContent = "🔇";
+        audioPath.setAttribute("d", "M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.06c1.48-.74 2.5-2.26 2.5-4.03z M19 12c0 2.21-1.2 4.15-3 5.19v-2.17c.61-.55 1-1.35 1-2.22s-.39-1.67-1-2.22V6.81c1.8 1.04 3 2.98 3 5.19z M3 10v4h4l5 5V5l-5 5H3z");
         musicMuted = true;
       }
     });
