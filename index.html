@@ -1,150 +1,299 @@
-<script>
-  const canvas = document.getElementById("canvas");
-  const ctx = canvas.getContext("2d");
-  const bgMusic = document.getElementById("bgMusic");
-  const audioIcon = document.getElementById("audio-icon");
-  const audioPath = document.getElementById("audio-icon-path");
-  let musicMuted = true;
-
-  document.body.addEventListener("click", () => {
-    if (bgMusic.muted) {
-      bgMusic.muted = false;
-      bgMusic.play();
-      musicMuted = false;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ABBY.WORLD Cannes 2025</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: black;
+      font-family: Arial, sans-serif;
     }
-  }, { once: true });
-
-  audioIcon.addEventListener("click", (event) => {
-    event.stopPropagation();
-    if (musicMuted) {
-      bgMusic.play();
-      audioPath.setAttribute("d", "M3 10v4h4l5 5V5l-5 5H3z");
-      musicMuted = false;
-    } else {
-      bgMusic.pause();
-      audioPath.setAttribute("d", "M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.06c1.48-.74 2.5-2.26 2.5-4.03z M19 12c0 2.21-1.2 4.15-3 5.19v-2.17c.61-.55 1-1.35 1-2.22s-.39-1.67-1-2.22V6.81c1.8 1.04 3 2.98 3 5.19z M3 10v4h4l5 5V5l-5 5H3z");
-      musicMuted = true;
+    canvas {
+      display: block;
     }
-  });
-
-  let rotationSpeedX = 0.005;
-  let rotationSpeedY = 0.005;
-  let focalLength = 300;
-  let targetFocalLength = 3000;
-  let numPoints = 261;
-  let targetPoints = 261;
-  let sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.4;
-  let points = [];
-
-  const isMobile = window.innerWidth <= 768;
-
-  function generateFibonacciSphere(n) {
-    let pts = [];
-    const phi = Math.PI * (3 - Math.sqrt(5));
-    const words = ["ABBY", "WORLD"];
-    for (let i = 0; i < n; i++) {
-      let y = 1 - (i / (n - 1)) * 2;
-      let radius = Math.sqrt(1 - y * y);
-      let theta = phi * i;
-      let x = Math.cos(theta) * radius;
-      let z = Math.sin(theta) * radius;
-      let word = words[Math.floor(Math.random() * words.length)];
-      pts.push({ x: x * sphereRadius, y: y * sphereRadius, z: z * sphereRadius, word });
+    #header {
+      position: fixed;
+      top: 50%;
+      left: 5vw;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 10px;
+      font-family: Arial, sans-serif;
+      z-index: 999;
     }
-    return pts;
-  }
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    sphereRadius = Math.min(canvas.width, canvas.height) * 0.4;
-    points = generateFibonacciSphere(numPoints);
-  }
-
-  window.addEventListener("resize", resizeCanvas);
-  resizeCanvas();
-
-  function rotateY(point, angle) {
-    const cosA = Math.cos(angle), sinA = Math.sin(angle);
-    return {
-      x: cosA * point.x + sinA * point.z,
-      y: point.y,
-      z: -sinA * point.x + cosA * point.z,
-      word: point.word
-    };
-  }
-
-  function rotateX(point, angle) {
-    const cosA = Math.cos(angle), sinA = Math.sin(angle);
-    return {
-      x: point.x,
-      y: cosA * point.y - sinA * point.z,
-      z: sinA * point.y + cosA * point.z,
-      word: point.word
-    };
-  }
-
-  let angleX = 0, angleY = 0;
-  let mouseX = 0, mouseY = 0;
-
-  document.addEventListener("mousemove", e => {
-    mouseX = e.clientX / window.innerWidth;
-    mouseY = e.clientY / window.innerHeight;
-  });
-
-  let toggleDirection = true;
-  setInterval(() => {
-    if (toggleDirection) {
-      targetFocalLength = 3000;
-      targetPoints = 400;
-    } else {
-      targetFocalLength = 1200;
-      targetPoints = 100;
+    #signup-form-container {
+      position: fixed;
+      top: 50%;
+      right: 5vw;
+      transform: translateY(-50%);
+      z-index: 999;
     }
-    toggleDirection = !toggleDirection;
-  }, 6000);
-
-  function animateValues() {
-    focalLength += (targetFocalLength - focalLength) * 0.02;
-    if (Math.abs(targetPoints - numPoints) > 1) {
-      numPoints += (targetPoints - numPoints) * 0.05;
-      points = generateFibonacciSphere(Math.round(numPoints));
+    #signup-form {
+      background: black;
+      padding: 5px;
+      border-radius: 8px;
+      border: 1px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-  }
+    #signup-form input[type="email"] {
+      padding: 6px 10px;
+      border: none;
+      border-bottom: 1px solid transparent;
+      background: black;
+      color: white;
+      border-radius: 0;
+      outline: none;
+      font-size: 10px;
+      transition: border-color 0.2s ease;
+      text-align: center;
+    }
+    #signup-form input[type="email"]:focus {
+      border-bottom: 1px solid white;
+    }
+    #response-message {
+      color: white;
+      font-size: 10px;
+      margin-top: 6px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    input::placeholder {
+      color: white;
+      opacity: 1;
+      font-size: 10px;
+    }
+    #audio-icon {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      width: 16px;
+      height: 16px;
+      z-index: 1000;
+      cursor: pointer;
+      fill: white;
+    }
+    @media (max-width: 768px) {
+      #header {
+        top: 10vh;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+      }
+      #signup-form-container {
+        top: auto;
+        bottom: 10vh;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        text-align: center;
+      }
+      canvas {
+        transform: scale(0.85);
+        image-rendering: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <svg id="audio-icon" viewBox="0 0 24 24">
+    <path id="audio-icon-path" d="M3 10v4h4l5 5V5l-5 5H3z" fill="white"/>
+  </svg>
 
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    animateValues();
+  <div id="header">CANNES 2025</div>
+  <div id="signup-form-container">
+    <form action="https://formspree.io/f/xldjayre" method="POST" id="signup-form">
+      <input type="email" name="email" placeholder="SIGN UP" required>
+    </form>
+    <p id="response-message"></p>
+  </div>
 
-    rotationSpeedX = 0.001 + (mouseY - 0.5) * 0.02;
-    rotationSpeedY = 0.001 + (mouseX - 0.5) * 0.02;
+  <audio id="bgMusic" loop autoplay muted>
+    <source src="https://raw.githubusercontent.com/ABBY-WORLD/FIATLUX/main/fiatlux.mp3" type="audio/mpeg">
+  </audio>
 
-    let transformedPoints = points.map(p => rotateX(rotateY(p, angleY), angleX));
-    transformedPoints.sort((a, b) => b.z - a.z);
+  <canvas id="canvas"></canvas>
 
-    transformedPoints.forEach(p => {
-      let scale = focalLength / (focalLength + Math.abs(p.z));
-      let x2D = canvas.width / 2 + p.x * scale;
-      let y2D = canvas.height / 2 + p.y * scale;
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const bgMusic = document.getElementById("bgMusic");
+    const audioIcon = document.getElementById("audio-icon");
+    const audioPath = document.getElementById("audio-icon-path");
+    let musicMuted = false;
 
-      let depthFactor = (p.z + sphereRadius) / (2 * sphereRadius);
-      let brightness = depthFactor * 255;
-
-      ctx.globalAlpha = p.z < 0 ? 0.5 : 1.0;
-      let fontScale = isMobile ? 0.8 : 1.0;
-      let fontSize = p.z > 0 ? ((8 + 6 * scale) * fontScale) : ((6 + 4 * scale) * fontScale);
-      ctx.fillStyle = `rgb(${brightness},${brightness},${brightness})`;
-      ctx.font = `${fontSize}px Arial`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(p.word, x2D, y2D);
+    audioIcon.addEventListener("click", () => {
+      if (musicMuted) {
+        bgMusic.play();
+        audioPath.setAttribute("d", "M3 10v4h4l5 5V5l-5 5H3z");
+        musicMuted = false;
+      } else {
+        bgMusic.pause();
+        audioPath.setAttribute("d", "M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.06c1.48-.74 2.5-2.26 2.5-4.03z M19 12c0 2.21-1.2 4.15-3 5.19v-2.17c.61-.55 1-1.35 1-2.22s-.39-1.67-1-2.22V6.81c1.8 1.04 3 2.98 3 5.19z M3 10v4h4l5 5V5l-5 5H3z");
+        musicMuted = true;
+      }
     });
 
-    ctx.globalAlpha = 1.0;
-    angleX += rotationSpeedX;
-    angleY += rotationSpeedY;
-    requestAnimationFrame(draw);
-  }
+    let rotationSpeedX = 0.005;
+    let rotationSpeedY = 0.005;
+    let focalLength = 1936;
+    let targetFocalLength = 3000;
+    let numPoints = 261;
+    let targetPoints = 261;
+    let sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.4;
+    let points = [];
 
-  draw();
-</script>
+    const isMobile = window.innerWidth <= 768;
+
+    function generateFibonacciSphere(n) {
+      let pts = [];
+      const phi = Math.PI * (3 - Math.sqrt(5));
+      const words = ["ABBY", "WORLD"];
+      for (let i = 0; i < n; i++) {
+        let y = 1 - (i / (n - 1)) * 2;
+        let radius = Math.sqrt(1 - y * y);
+        let theta = phi * i;
+        let x = Math.cos(theta) * radius;
+        let z = Math.sin(theta) * radius;
+        let word = words[Math.floor(Math.random() * words.length)];
+        pts.push({ x: x * sphereRadius, y: y * sphereRadius, z: z * sphereRadius, word });
+      }
+      return pts;
+    }
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      sphereRadius = Math.min(canvas.width, canvas.height) * 0.4;
+      points = generateFibonacciSphere(numPoints);
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function rotateY(point, angle) {
+      const cosA = Math.cos(angle), sinA = Math.sin(angle);
+      return {
+        x: cosA * point.x + sinA * point.z,
+        y: point.y,
+        z: -sinA * point.x + cosA * point.z,
+        word: point.word
+      };
+    }
+
+    function rotateX(point, angle) {
+      const cosA = Math.cos(angle), sinA = Math.sin(angle);
+      return {
+        x: point.x,
+        y: cosA * point.y - sinA * point.z,
+        z: sinA * point.y + cosA * point.z,
+        word: point.word
+      };
+    }
+
+    let angleX = 0, angleY = 0;
+    let mouseX = 0, mouseY = 0;
+
+    document.addEventListener("mousemove", e => {
+      mouseX = e.clientX / window.innerWidth;
+      mouseY = e.clientY / window.innerHeight;
+    });
+
+    setInterval(() => {
+      targetFocalLength = targetFocalLength === 3000 ? 1200 : 3000;
+      targetPoints = targetPoints === 400 ? 100 : 400;
+    }, 6000);
+
+    function animateValues() {
+      focalLength += (targetFocalLength - focalLength) * 0.02;
+      if (Math.abs(targetPoints - numPoints) > 1) {
+        numPoints += (targetPoints - numPoints) * 0.05;
+        points = generateFibonacciSphere(Math.round(numPoints));
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      animateValues();
+
+      rotationSpeedX = 0.001 + (mouseY - 0.5) * 0.02;
+      rotationSpeedY = 0.001 + (mouseX - 0.5) * 0.02;
+
+      let transformedPoints = points.map(p => rotateX(rotateY(p, angleY), angleX));
+      transformedPoints.sort((a, b) => b.z - a.z);
+
+      transformedPoints.forEach(p => {
+        let scale = focalLength / (focalLength + Math.abs(p.z));
+        let x2D = canvas.width / 2 + p.x * scale;
+        let y2D = canvas.height / 2 + p.y * scale;
+
+        let depthFactor = (p.z + sphereRadius) / (2 * sphereRadius);
+        let brightness = depthFactor * 255;
+
+        ctx.globalAlpha = p.z < 0 ? 0.5 : 1.0;
+        let fontScale = isMobile ? 0.8 : 1.0;
+        let fontSize = p.z > 0 ? ((8 + 6 * scale) * fontScale) : ((6 + 4 * scale) * fontScale);
+        ctx.fillStyle = `rgb(${brightness},${brightness},${brightness})`;
+        ctx.font = `${fontSize}px Arial`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(p.word, x2D, y2D);
+      });
+
+      ctx.globalAlpha = 1.0;
+      angleX += rotationSpeedX;
+      angleY += rotationSpeedY;
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+
+    const form = document.getElementById('signup-form');
+    const responseMsg = document.getElementById('response-message');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const data = new FormData(form);
+
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          showMessage("THANK YOU");
+          form.reset();
+        } else {
+          response.json().then(data => {
+            if (data.errors) {
+              showMessage(data.errors.map(error => error.message).join(", "));
+            } else {
+              showMessage("ERROR");
+            }
+          });
+        }
+      })
+      .catch(error => {
+        showMessage("ERROR");
+        console.error("Error:", error);
+      });
+    });
+
+    function showMessage(message) {
+      responseMsg.textContent = message;
+      responseMsg.style.opacity = 1;
+      setTimeout(() => {
+        responseMsg.style.opacity = 0;
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
