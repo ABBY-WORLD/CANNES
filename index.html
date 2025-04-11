@@ -17,17 +17,92 @@
     }
     #header {
       position: fixed;
-      top: 10px;
-      left: 10px;
+      top: 50%;
+      left: 5vw;
+      transform: translateY(-50%);
       z-index: 10;
       color: white;
       font-size: 10px;
       font-family: Arial, sans-serif;
     }
+    #signup-form-container {
+      position: fixed;
+      top: 50%;
+      right: 5vw;
+      transform: translateY(-50%);
+      z-index: 999;
+    }
+    #signup-form {
+      background: black;
+      padding: 5px;
+      border-radius: 8px;
+      border: 1px solid black;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    #signup-form input[type="email"] {
+      padding: 6px 10px;
+      border: none;
+      border-bottom: 1px solid transparent;
+      background: black;
+      color: white;
+      border-radius: 0;
+      outline: none;
+      font-size: 10px;
+      transition: border-color 0.2s ease;
+    }
+    #signup-form input[type="email"]:focus {
+      border-bottom: 1px solid white;
+    }
+    #signup-form button {
+      padding: 6px 10px;
+      background: black;
+      color: white;
+      border: 1px solid black;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    input::placeholder {
+      color: white;
+      opacity: 1;
+      font-size: 10px;
+    }
+    #response-message {
+      color: white;
+      font-size: 10px;
+      margin-top: 6px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    @media (max-width: 768px) {
+      #header {
+        top: auto;
+        bottom: 10vh;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      #signup-form-container {
+        top: auto;
+        bottom: 4vh;
+        right: 50%;
+        transform: translateX(50%);
+      }
+    }
   </style>
 </head>
 <body>
-  <div id="header">ABBY.WORLD CANNES 2025</div>
+  <div id="header">CANNES 2025</div>
+
+  <div id="signup-form-container">
+    <form action="https://formspree.io/f/xldjayre" method="POST" id="signup-form">
+      <input type="email" name="email" placeholder="SIGN UP" required>
+      <button type="submit">&#8594;</button>
+    </form>
+    <p id="response-message"></p>
+  </div>
 
   <audio id="bgMusic" autoplay loop>
     <source src="https://raw.githubusercontent.com/ABBY-WORLD/FIATLUX/main/fiatlux.mp3" type="audio/mpeg">
@@ -38,6 +113,18 @@
   <script>
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
+    const bgMusic = document.getElementById("bgMusic");
+    let musicMuted = false;
+
+    document.addEventListener("click", () => {
+      if (musicMuted) {
+        bgMusic.play();
+        musicMuted = false;
+      } else {
+        bgMusic.pause();
+        musicMuted = true;
+      }
+    });
 
     let rotationSpeedX = 0.005;
     let rotationSpeedY = 0.005;
@@ -100,16 +187,24 @@
       mouseY = e.clientY / window.innerHeight;
     });
 
+    // Animate FOV (focalLength)
+    let fovIncreasing = true;
+    setInterval(() => {
+      fovIncreasing = !fovIncreasing;
+    }, 5000);
+
+    function updateFOV() {
+      const target = fovIncreasing ? 3000 : 1200;
+      focalLength += (target - focalLength) * 0.01;
+    }
+
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+      updateFOV();
+
       rotationSpeedX = 0.001 + (mouseY - 0.5) * 0.02;
       rotationSpeedY = 0.001 + (mouseX - 0.5) * 0.02;
-
-      if (Math.random() < 0.01) {
-        numPoints = 240 + Math.floor(Math.random() * 50);
-        points = generateFibonacciSphere(numPoints);
-      }
 
       let transformedPoints = points.map(p => rotateX(rotateY(p, angleY), angleX));
       transformedPoints.sort((a, b) => b.z - a.z);
@@ -138,6 +233,49 @@
     }
 
     draw();
+
+    // Formspree form logic
+    const form = document.getElementById('signup-form');
+    const responseMsg = document.getElementById('response-message');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const data = new FormData(form);
+
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          showMessage("THANK YOU");
+          form.reset();
+        } else {
+          response.json().then(data => {
+            if (data.errors) {
+              showMessage(data.errors.map(error => error.message).join(", "));
+            } else {
+              showMessage("ERROR");
+            }
+          });
+        }
+      })
+      .catch(error => {
+        showMessage("ERROR");
+        console.error("Error:", error);
+      });
+    });
+
+    function showMessage(message) {
+      responseMsg.textContent = message;
+      responseMsg.style.opacity = 1;
+      setTimeout(() => {
+        responseMsg.style.opacity = 0;
+      }, 3000);
+    }
   </script>
 </body>
 </html>
