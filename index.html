@@ -203,9 +203,9 @@ function generateFibonacciSphere(n) {
     };
   </script>
 
-<!-- E-postformulär med vit text, pil och fade-out-meddelande -->
+<!-- E-postformulär med vit text, pil och fade-out-meddelande via Formspree -->
 <div style="position: absolute; top: 10px; right: 10px; z-index: 999;">
-  <form id="signup-form" style="
+  <form action="https://formspree.io/f/xldjayre" method="POST" id="signup-form" style="
       background: black;
       padding: 5px;
       border-radius: 8px;
@@ -275,30 +275,40 @@ function generateFibonacciSphere(n) {
   const form = document.getElementById('signup-form');
   const responseMsg = document.getElementById('response-message');
 
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', function (e) {
     e.preventDefault();
-    const formData = new FormData(form);
+    const data = new FormData(form);
 
-    fetch('https://script.google.com/a/macros/abbyworld.com/s/AKfycbxTbggYsHZlLhDAYzqVeanvXohcrE2aPwUJKimcHxXH8xvMSlwDckVmVLnruMREzNSI/exec', {
+    fetch(form.action, {
       method: 'POST',
-      body: new URLSearchParams(formData)
+      body: data,
+      headers: {
+        'Accept': 'application/json'
+      }
     })
-    .then(response => response.text())
-    .then(data => {
-      showMessage('THANK YOU');
-      form.reset();
+    .then(response => {
+      if (response.ok) {
+        showMessage("THANK YOU");
+        form.reset();
+      } else {
+        response.json().then(data => {
+          if (data.errors) {
+            showMessage(data.errors.map(error => error.message).join(", "));
+          } else {
+            showMessage("ERROR");
+          }
+        });
+      }
     })
     .catch(error => {
-      showMessage('ERROR');
-      console.error('Error:', error);
+      showMessage("ERROR");
+      console.error("Error:", error);
     });
   });
 
   function showMessage(message) {
     responseMsg.textContent = message;
     responseMsg.style.opacity = 1;
-
-    // Döljer meddelandet efter 3 sekunder
     setTimeout(() => {
       responseMsg.style.opacity = 0;
     }, 3000);
