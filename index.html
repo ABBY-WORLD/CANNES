@@ -2,158 +2,153 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ABBY.WORLD Cannes 2025</title>
   <link rel="icon" href="favicon.png" type="image/png" />
   <style>
     @font-face {
-      font-family: 'Tiempos';
+      font-family: 'TiemposText';
       src: url('TiemposText-Regular.otf') format('opentype');
     }
     @font-face {
-      font-family: 'Mono';
+      font-family: 'HelveticaMono';
       src: url('HelveticaMonospacedPro-Rg.otf') format('opentype');
     }
+
     body {
       margin: 0;
-      padding: 0;
       background-color: #F0EDE6;
-      color: black;
-      font-family: 'Mono', monospace;
+      font-family: 'HelveticaMono', monospace;
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: space-between;
-      min-height: 100vh;
+      height: 100vh;
       text-align: center;
     }
-    .top {
-      padding-top: 40px;
+
+    .top-section {
+      margin-top: 40px;
+      line-height: 1.5;
+      font-size: 16px;
     }
-    .headline {
-      font-family: 'Tiempos', serif;
+
+    .title {
+      font-family: 'TiemposText', serif;
       font-size: 24px;
       margin: 40px 0 20px;
     }
-    .date-line {
-      margin-top: 20px;
-      font-size: 14px;
-      letter-spacing: 1px;
+
+    .time-slot {
+      margin: 0;
+      font-size: 16px;
     }
+
     form {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 10px;
-      margin-top: 20px;
-      font-size: 16px;
+      margin-top: 10px;
     }
-    input[type="email"] {
-      font-family: 'Mono', monospace;
-      background-color: transparent;
+
+    .input-line {
       border: none;
       border-bottom: 2px dashed black;
+      background: transparent;
+      font-family: 'HelveticaMono', monospace;
       font-size: 16px;
-      padding: 4px;
-      text-align: center;
+      color: black;
       outline: none;
-      width: 220px;
+      width: 200px; /* Justerbar input-längd */
+      text-align: center;
     }
-    input::placeholder {
-      color: black;
-      opacity: 1;
-    }
-    button {
-      font-family: 'Mono', monospace;
-      font-size: 16px;
-      background-color: transparent;
+
+    .signup-button {
       border: 1px solid black;
+      background-color: transparent;
       color: black;
-      padding: 4px 12px;
+      padding: 5px 12px;
+      font-family: 'HelveticaMono', monospace;
+      font-size: 16px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
-    .legal {
+
+    .signup-button.clicked {
+      background-color: black;
+      color: #F0EDE6;
+      border: none;
+    }
+
+    #legal {
       font-size: 10px;
-      max-width: 300px;
-      margin: 12px auto 0;
-      opacity: 0;
+      max-width: 260px;
+      margin-top: 10px;
+      opacity: 1;
       transition: opacity 1s ease;
     }
-    .legal a {
+
+    #legal a {
       color: black;
       text-decoration: underline;
     }
+
     .flower {
       width: 80px;
-      margin: 40px auto;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
-  <div class="top">
-    <div>17 &nbsp;&nbsp;&nbsp;&nbsp; 06 &nbsp;&nbsp;&nbsp;&nbsp; 25</div>
+
+  <div class="top-section">
+    <div>17 &nbsp;&nbsp; 06 &nbsp;&nbsp; 25</div>
     <div>ABBY.WORLD</div>
     <div>7 RUE DE LA CALADE</div>
     <div>CANNES</div>
+  </div>
 
-    <div class="headline">ABBY.WORLD Cannes 2025</div>
-    <div class="date-line">TUESDAY–WEDNESDAY</div>
+  <div>
+    <div class="title">ABBY.WORLD Cannes 2025</div>
+    <div class="time-slot">TUESDAY–WEDNESDAY</div>
 
-    <form id="signup-form" action="https://formspree.io/f/xldjayre" method="POST">
-      <input type="email" name="email" placeholder="SIGN UP" required />
-      <button type="submit" id="submit-btn">SIGN UP</button>
+    <form id="signup-form">
+      <input type="email" class="input-line" name="email" required />
+      <button type="submit" class="signup-button">SIGN UP</button>
     </form>
 
-    <div id="legal" class="legal">
+    <div id="legal">
       By submitting this form, you consent to us processing your personal data to send you information about the event.
       We will not keep your data longer than necessary.
       <a href="https://docs.google.com/document/d/1Dte-DqgnydV6A6dxK7Ldg7Wn774N0YIbEcEmPN4XQq8/edit?usp=sharing" target="_blank">Learn more here</a>.
     </div>
   </div>
 
-  <img src="Abby_flower.png" alt="Abby Flower" class="flower" />
+  <img src="Abby_flower.png" alt="flower" class="flower" />
 
   <script>
-    const form = document.getElementById("signup-form");
-    const emailInput = form.querySelector('input[type="email"]');
-    const button = document.getElementById("submit-btn");
-    const legal = document.getElementById("legal");
+    const form = document.getElementById('signup-form');
+    const button = form.querySelector('.signup-button');
+    const input = form.querySelector('.input-line');
+    const legal = document.getElementById('legal');
 
-    emailInput.addEventListener("focus", () => {
-      legal.style.opacity = 1;
-    });
-
-    form.addEventListener("submit", async function (e) {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const data = new FormData(form);
+      
+      // Change state on click
+      button.textContent = "THANK YOU";
+      button.classList.add("clicked");
+      legal.style.opacity = 0;
 
-      try {
-        const response = await fetch(form.action, {
-          method: "POST",
-          body: data,
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
-
-        if (response.ok) {
-          button.textContent = "THANK YOU";
-          legal.style.opacity = 0;
-          setTimeout(() => {
-            emailInput.value = "";
-            button.textContent = "SIGN UP";
-            button.style.backgroundColor = "transparent";
-            button.style.color = "black";
-            button.style.border = "1px solid black";
-            emailInput.placeholder = "SIGN UP";
-          }, 2000);
-        } else {
-          button.textContent = "ERROR";
-        }
-      } catch (error) {
-        console.error("Submit error:", error);
-        button.textContent = "ERROR";
-      }
+      setTimeout(() => {
+        // Reset everything after 2 sec
+        input.value = "";
+        button.textContent = "SIGN UP";
+        button.classList.remove("clicked");
+        legal.style.opacity = 1;
+      }, 2000);
     });
   </script>
+
 </body>
 </html>
