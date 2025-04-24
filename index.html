@@ -6,295 +6,108 @@
   <title>ABBY.WORLD Cannes 2025</title>
   <link rel="icon" href="favicon.png" type="image/png" />
   <style>
+    @font-face {
+      font-family: 'CustomFont';
+      src: url('YourFontFile.otf') format('opentype');
+    }
+
     body {
       margin: 0;
-      overflow: hidden;
-      background-color: black;
-      font-family: Arial, sans-serif;
-    }
-    canvas {
-      display: block;
-    }
-    #header {
-      position: fixed;
-      top: 50%;
-      left: 5vw;
-      transform: translateY(-50%);
-      color: white;
-      font-size: 10px;
-      font-family: Arial, sans-serif;
-      z-index: 999;
-    }
-    #signup-form-container {
-      position: fixed;
-      top: 50%;
-      right: 5vw;
-      transform: translateY(-50%);
-      z-index: 999;
-    }
-    #signup-form {
-      background: black;
-      padding: 5px;
-      border-radius: 8px;
-      border: 1px solid black;
+      background-color: #F0EDE6;
+      font-family: 'CustomFont', Arial, sans-serif;
+      text-align: center;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 100vh;
     }
-    #signup-form input[type="email"] {
-      padding: 6px 10px;
+
+    #event-info {
+      margin-top: 40px;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    #title {
+      font-size: 20px;
+      margin: 20px 0;
+    }
+
+    #time {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    #signup-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    #signup-form {
+      background: transparent;
       border: none;
-      border-bottom: 1px solid transparent;
-      background: black;
-      color: white;
-      border-radius: 0;
-      outline: none;
-      font-size: 10px;
-      transition: border-color 0.2s ease;
+    }
+
+    #signup-form input[type="email"] {
+      border: none;
+      border-bottom: 1px solid black;
+      background: transparent;
       text-align: center;
+      font-size: 12px;
+      outline: none;
+      padding: 5px;
     }
-    #signup-form input[type="email"]:focus {
-      border-bottom: 1px solid white;
+
+    #submit-button {
+      background: none;
+      border: 1px solid black;
+      padding: 2px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 4px;
     }
-    #signup-info {
-      opacity: 0;
-      transition: opacity 1s ease;
-      color: white;
-      font-size: 10px;
-      margin-top: 6px;
-      max-width: 180px;
-      line-height: 1.4;
+
+    #flower {
+      margin-top: 50px;
+      height: 90px;
     }
-    #signup-info a {
-      color: white;
-      text-decoration: underline;
-    }
+
     #response-message {
-      color: white;
       font-size: 10px;
       margin-top: 6px;
+      color: black;
       opacity: 0;
       transition: opacity 0.5s ease;
-    }
-    input::placeholder {
-      color: white;
-      opacity: 1;
-      font-size: 10px;
-    }
-    #audio-icon {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      width: 16px;
-      height: 16px;
-      z-index: 1000;
-      cursor: pointer;
-      fill: white;
-    }
-    @media (max-width: 768px) {
-      #header {
-        top: 10vh;
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
-      }
-      #signup-form-container {
-        top: auto;
-        bottom: 10vh;
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-        text-align: center;
-      }
-      canvas {
-        transform: scale(0.85);
-        image-rendering: auto;
-      }
     }
   </style>
 </head>
 <body>
-  <svg id="audio-icon" viewBox="0 0 24 24">
-    <path id="audio-icon-path" d="M3 10v4h4l5 5V5l-5 5H3z" fill="white" />
-  </svg>
+  <div id="event-info">
+    <div>17 &nbsp;&nbsp; 06 &nbsp;&nbsp; 25</div>
+    <div>ABBY.WORLD</div>
+    <div>7 RUE DE LA CALADE</div>
+    <div>CANNES</div>
+  </div>
 
-  <div id="header">CANNES 2025</div>
+  <div id="title">ABBY.WORLD Cannes 2025</div>
+  <div id="time">2100H–0300H</div>
 
-  <div id="signup-form-container">
+  <div id="signup-section">
     <form action="https://formspree.io/f/xldjayre" method="POST" id="signup-form">
       <input type="email" name="email" placeholder="SIGN UP" required />
+      <button type="submit" id="submit-button">SIGN UP</button>
     </form>
-    <div id="signup-info">
-      By submitting this form, you consent to us processing your personal data to send you information about the event.
-      We will not keep your data longer than necessary.
-      <a href="https://docs.google.com/document/d/1Dte-DqgnydV6A6dxK7Ldg7Wn774N0YIbEcEmPN4XQq8/edit?usp=sharing" target="_blank">Learn more here</a>.
-    </div>
     <p id="response-message"></p>
   </div>
 
-  <audio id="bgMusic" loop>
-    <source src="https://raw.githubusercontent.com/ABBY-WORLD/FIATLUX/main/fiatlux.mp3" type="audio/mpeg" />
-  </audio>
-
-  <canvas id="canvas"></canvas>
+  <img src="blomman.png" alt="Flower illustration" id="flower" />
 
   <script>
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    const bgMusic = document.getElementById("bgMusic");
-    const audioIcon = document.getElementById("audio-icon");
-    const audioPath = document.getElementById("audio-icon-path");
-    let musicMuted = false;
-    let musicStarted = false;
-
-    document.addEventListener("click", () => {
-      if (!musicStarted) {
-        bgMusic.play().catch(err => console.log("Autoplay error:", err));
-        musicStarted = true;
-        musicMuted = false;
-        audioPath.setAttribute("d", "M3 10v4h4l5 5V5l-5 5H3z");
-      }
-    });
-
-    audioIcon.addEventListener("click", (e) => {
-      e.stopPropagation();
-      musicMuted = !musicMuted;
-      if (musicMuted) {
-        bgMusic.pause();
-        audioPath.setAttribute("d", "M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.06c1.48-.74 2.5-2.26 2.5-4.03z M19 12c0 2.21-1.2 4.15-3 5.19v-2.17c.61-.55 1-1.35 1-2.22s-.39-1.67-1-2.22V6.81c1.8 1.04 3 2.98 3 5.19z M3 10v4h4l5 5V5l-5 5H3z");
-      } else {
-        bgMusic.play();
-        audioPath.setAttribute("d", "M3 10v4h4l5 5V5l-5 5H3z");
-      }
-    });
-
-    let rotationSpeedX = 0.005;
-    let rotationSpeedY = 0.005;
-    let focalLength = 3000;
-    let targetFocalLength = 1200;
-    let numPoints = 261;
-    let targetPoints = 400;
-    let sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.4;
-    let points = [];
-
-    const isMobile = window.innerWidth <= 768;
-
-    function generateFibonacciSphere(n) {
-      let pts = [];
-      const phi = Math.PI * (3 - Math.sqrt(5));
-      const words = ["ABBY", "WORLD"];
-      for (let i = 0; i < n; i++) {
-        let y = 1 - (i / (n - 1)) * 2;
-        let radius = Math.sqrt(1 - y * y);
-        let theta = phi * i;
-        let x = Math.cos(theta) * radius;
-        let z = Math.sin(theta) * radius;
-        let word = words[Math.floor(Math.random() * words.length)];
-        pts.push({ x: x * sphereRadius, y: y * sphereRadius, z: z * sphereRadius, word });
-      }
-      return pts;
-    }
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      sphereRadius = Math.min(canvas.width, canvas.height) * 0.4;
-      points = generateFibonacciSphere(numPoints);
-    }
-
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-
-    function rotateY(point, angle) {
-      const cosA = Math.cos(angle), sinA = Math.sin(angle);
-      return {
-        x: cosA * point.x + sinA * point.z,
-        y: point.y,
-        z: -sinA * point.x + cosA * point.z,
-        word: point.word
-      };
-    }
-
-    function rotateX(point, angle) {
-      const cosA = Math.cos(angle), sinA = Math.sin(angle);
-      return {
-        x: point.x,
-        y: cosA * point.y - sinA * point.z,
-        z: sinA * point.y + cosA * point.z,
-        word: point.word
-      };
-    }
-
-    let angleX = 0, angleY = 0;
-    let mouseX = 0, mouseY = 0;
-
-    document.addEventListener("mousemove", e => {
-      mouseX = e.clientX / window.innerWidth;
-      mouseY = e.clientY / window.innerHeight;
-    });
-
-    function loopFOV() {
-      targetFocalLength = (targetFocalLength === 3000) ? 300 : 3000;
-      const delay = Math.random() * 4000 + 3000;
-      setTimeout(loopFOV, delay);
-    }
-
-    function loopWordCount() {
-      targetPoints = (targetPoints === 100) ? 400 : 100;
-      const delay = Math.random() * 4000 + 3000;
-      setTimeout(loopWordCount, delay);
-    }
-
-    loopFOV();
-    loopWordCount();
-
-    function animateValues() {
-      focalLength += (targetFocalLength - focalLength) * 0.02;
-      if (Math.abs(targetPoints - numPoints) > 1) {
-        numPoints += (targetPoints - numPoints) * 0.05;
-        points = generateFibonacciSphere(Math.round(numPoints));
-      }
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      animateValues();
-
-      rotationSpeedX = 0.001 + (mouseY - 0.5) * 0.02;
-      rotationSpeedY = 0.001 + (mouseX - 0.5) * 0.02;
-
-      let transformedPoints = points.map(p => rotateX(rotateY(p, angleY), angleX));
-      transformedPoints.sort((a, b) => b.z - a.z);
-
-      transformedPoints.forEach(p => {
-        let scale = focalLength / (focalLength + Math.abs(p.z));
-        let x2D = canvas.width / 2 + p.x * scale;
-        let y2D = canvas.height / 2 + p.y * scale;
-
-        let depthFactor = (p.z + sphereRadius) / (2 * sphereRadius);
-        let brightness = depthFactor * 255;
-
-        ctx.globalAlpha = p.z < 0 ? 0.5 : 1.0;
-        let fontScale = isMobile ? 0.8 : 1.0;
-        let fontSize = p.z > 0 ? ((8 + 6 * scale) * fontScale) : ((6 + 4 * scale) * fontScale);
-        ctx.fillStyle = `rgb(${brightness},${brightness},${brightness})`;
-        ctx.font = `${fontSize}px Arial`;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(p.word, x2D, y2D);
-      });
-
-      ctx.globalAlpha = 1.0;
-      angleX += rotationSpeedX;
-      angleY += rotationSpeedY;
-      requestAnimationFrame(draw);
-    }
-
-    draw();
-
     const form = document.getElementById('signup-form');
     const responseMsg = document.getElementById('response-message');
-    const signupInfo = document.getElementById('signup-info');
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -328,19 +141,10 @@
     function showMessage(message) {
       responseMsg.textContent = message;
       responseMsg.style.opacity = 1;
-      signupInfo.style.opacity = 0;
-
       setTimeout(() => {
         responseMsg.style.opacity = 0;
       }, 3000);
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const emailInput = document.querySelector('#signup-form input[type="email"]');
-      emailInput.addEventListener("focus", () => {
-        signupInfo.style.opacity = 1;
-      });
-    });
   </script>
 </body>
 </html>
