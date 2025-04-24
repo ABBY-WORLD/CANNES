@@ -5,10 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ABBY.WORLD Cannes 2025</title>
   <style>
+    :root {
+      --line-height: 1.8;
+      --button-width: 120px;
+      --button-padding: 6px 12px;
+      --button-letter-spacing: 2px;
+      --gap: 14px;
+    }
+
     @font-face {
       font-family: "Tiempos";
       src: url("TiemposText-Regular.otf") format("opentype");
     }
+
     @font-face {
       font-family: "Mono";
       src: url("HelveticaMonospacedPro-Rg.otf") format("opentype");
@@ -24,6 +33,7 @@
       justify-content: space-between;
       min-height: 100vh;
       text-align: center;
+      line-height: var(--line-height);
     }
 
     .top-content {
@@ -36,46 +46,47 @@
 
     h1 {
       font-size: 24px;
-      margin: 20px 0;
+      margin: var(--gap) 0;
     }
 
     .address-block {
-      margin-top: 10px;
-      line-height: 1.4;
+      line-height: 1.5;
       font-size: 14px;
     }
 
     .time {
       font-family: "Mono", monospace;
       font-size: 16px;
-      margin-bottom: 10px;
-    }
-
-    #signup-form {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
       margin-bottom: 12px;
     }
 
-    #signup-form input[type="email"] {
-      border: none;
-      background: transparent;
-      border-bottom: 1px solid black;
+    #signup-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dashed-line {
       font-family: "Mono", monospace;
-      font-size: 16px;
-      text-align: center;
-      outline: none;
-      padding: 4px 8px;
+      font-size: 20px;
+      color: black;
+      margin-bottom: 6px;
+      letter-spacing: 6px;
+    }
+
+    #signup-form input[type="email"] {
+      display: none; /* Hidden since we are only using the button here visually */
     }
 
     #signup-form button {
       font-family: "Mono", monospace;
-      background: black;
-      color: white;
+      background: transparent;
+      border: 1px solid black;
       font-size: 16px;
-      border: none;
-      padding: 4px 10px;
+      width: var(--button-width);
+      padding: var(--button-padding);
+      letter-spacing: var(--button-letter-spacing);
       cursor: pointer;
     }
 
@@ -85,7 +96,7 @@
       font-size: 10px;
       color: black;
       max-width: 280px;
-      margin: 0 auto;
+      margin: 12px auto 0;
       line-height: 1.4;
     }
 
@@ -94,51 +105,4 @@
       text-decoration: underline;
     }
 
-    .flower {
-      width: 80px;
-      margin: 40px auto 20px;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="top-content">
-    <div class="mono">
-      <div>17 06 25</div>
-      <div>ABBY.WORLD</div>
-      <div>7 RUE DE LA CALADE</div>
-      <div>CANNES</div>
-    </div>
-
-    <h1>ABBY.WORLD Cannes 2025</h1>
-
-    <div class="time">2100H–0300H</div>
-
-    <form id="signup-form" action="https://formspree.io/f/xldjayre" method="POST">
-      <input type="email" name="email" placeholder="your@email.com" required />
-      <button type="submit">SIGN UP</button>
-    </form>
-
-    <div id="legal-text">
-      By submitting this form, you consent to us processing your personal data to send you information about the event. 
-      <a href="https://docs.google.com/document/d/1Dte-DqgnydV6A6dxK7Ldg7Wn774N0YIbEcEmPN4XQq8/edit?usp=sharing" target="_blank">Learn more here</a>.
-    </div>
-  </div>
-
-  <img src="flower.png" alt="flower" class="flower" />
-
-  <script>
-    const emailInput = document.querySelector('#signup-form input[type="email"]');
-    const legalText = document.getElementById('legal-text');
-
-    emailInput.addEventListener('input', () => {
-      if (emailInput.value.length > 0) {
-        legalText.style.opacity = 1;
-      } else {
-        legalText.style.opacity = 0;
-      }
-    });
-  </script>
-
-</body>
-</html>
+    .
