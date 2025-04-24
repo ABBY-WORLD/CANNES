@@ -80,11 +80,13 @@ button {
   color: black;
   font-family: 'HelveticaMono', monospace;
   font-size: 17px;
-  padding: 1px 1px;
-  padding-bottom: 0;              /* 👈 lägg till den här */
-  line-height: normal;            /* 👈 och den här */
-  box-sizing: content-box;        /* 👈 och den här */
-  display: inline-block;
+  padding: 0; /* Inga extra pixlar runt texten */
+  line-height: 1; /* Tätsittande radavstånd */
+  height: 100%; /* Förhindra "auto"-höjd som ger extra space */
+  display: inline-flex; /* 👈 bättre kontroll på innehålls-centrering */
+  align-items: center;  /* 👈 vertikalcentrering */
+  justify-content: center;
+  box-sizing: border-box; /* Viktigt! */
   vertical-align: middle;
   cursor: pointer;
   transition: all 0.3s ease;
