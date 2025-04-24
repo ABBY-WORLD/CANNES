@@ -74,18 +74,18 @@
       margin-right: 10px;
     }
 
-    button {
-      background: transparent;
-      border: 1px solid black;
-      color: black;
-      font-family: 'HelveticaMono', monospace;
-      font-size: 14px;
-      padding: 0px 0px;
-      line-height: 1em; /* eller 1 */
-      vertical-align: middle;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+   button {
+  background: transparent;
+  border: 1px solid black;
+  color: black;
+  font-family: 'HelveticaMono', monospace;
+  font-size: 14px;
+  padding: 0; /* Inget extra utrymme runt texten */
+  line-height: 14px; /* Samma som font-size för exakt höjd */
+  vertical-align: middle;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
     button.clicked {
       background: black;
