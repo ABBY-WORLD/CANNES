@@ -123,22 +123,28 @@ button {
     }
 
 @media (max-width: 768px) {
-  #signup-form-container {
+  .form-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
   #signup-info {
-    order: -1;               /* Flytta upp legaltexten */
-    margin-bottom: 16px;     /* Luft mellan legaltext och input */
+    order: -1;
+    margin-bottom: 16px;
     max-width: 260px;
     text-align: center;
   }
 
+  #signup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .input-line {
     font-size: 16px;
-    -webkit-text-size-adjust: 100%; /* Stoppar iOS-zoom */
+    -webkit-text-size-adjust: 100%;
   }
 
   .flower {
