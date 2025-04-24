@@ -4,165 +4,138 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ABBY.WORLD Cannes 2025</title>
-  <link rel="icon" href="favicon.png" type="image/png" />
-
-  <!-- Custom Fonts -->
+  <link rel="icon" type="image/png" href="favicon.png">
   <style>
     @font-face {
-      font-family: 'TiemposText';
+      font-family: 'Tiempos';
       src: url('TiemposText-Regular.otf') format('opentype');
     }
     @font-face {
-      font-family: 'HelveticaMono';
+      font-family: 'Mono';
       src: url('HelveticaMonospacedPro-Rg.otf') format('opentype');
     }
 
     body {
       background-color: #F0EDE6;
+      font-family: 'Mono', monospace;
       margin: 0;
       padding: 0;
-      font-family: 'HelveticaMono', monospace;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
       justify-content: space-between;
-      align-items: center;
-    }
-
-    .top {
-      padding-top: 40px;
+      min-height: 100vh;
       text-align: center;
-      line-height: 1.2;
     }
 
-    .top .headline {
-      font-family: 'TiemposText', serif;
-      font-size: 24px;
-      margin: 40px 0 30px;
-    }
-
-    .weekday {
-      margin-bottom: 10px;
-    }
-
-    .form-section {
-      display: flex;
-      align-items: center;
-      gap: 5px;
+    header {
+      padding-top: 4vh;
+      line-height: 1.6;
       font-size: 16px;
     }
 
-    .dash-line {
-      border-bottom: 2px dashed black;
-      width: 120px;
+    h1 {
+      font-family: 'Tiempos', serif;
+      font-size: 24px;
+      margin: 6vh 0 2vh;
+    }
+
+    .time {
+      font-size: 16px;
+      margin-bottom: 16px;
     }
 
     form {
       display: flex;
+      justify-content: center;
       align-items: center;
+      font-family: 'Mono', monospace;
+      font-size: 16px;
+      margin-bottom: 16px;
     }
 
     input[type="email"] {
-      background-color: transparent;
       border: none;
+      border-bottom: 2px dashed black;
+      background: transparent;
+      color: black;
+      padding: 4px 8px;
+      font-family: 'Mono', monospace;
+      font-size: 16px;
+      width: 200px;
       outline: none;
-      color: transparent;
-      caret-color: black;
-      width: 0px;
-      padding: 0;
+      text-align: center;
+    }
+
+    input::placeholder {
+      color: black;
+      opacity: 0.6;
     }
 
     button {
-      background-color: black;
+      background: black;
       color: white;
-      font-family: 'HelveticaMono', monospace;
-      font-size: 16px;
-      padding: 2px 10px;
       border: none;
+      font-family: 'Mono', monospace;
+      font-size: 16px;
+      padding: 4px 8px;
+      margin-left: 8px;
       cursor: pointer;
-      letter-spacing: 1px;
     }
 
-    #legal {
-      opacity: 0;
+    .legal {
       font-size: 10px;
-      max-width: 250px;
-      text-align: center;
-      margin-top: 10px;
+      max-width: 300px;
+      margin: 12px auto;
+      opacity: 0;
       transition: opacity 1s ease;
     }
 
-    #legal a {
-      color: black;
-      text-decoration: underline;
+    .legal.visible {
+      opacity: 1;
     }
 
     .flower {
-      width: 90px;
-      margin-bottom: 20px;
+      width: 80px;
+      margin: 4vh auto 2vh;
     }
 
-    @media (max-width: 768px) {
-      .top .headline {
-        font-size: 20px;
-      }
-
-      .form-section {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .dash-line {
-        width: 100px;
-      }
-
-      .flower {
-        width: 60px;
-      }
-    }
   </style>
 </head>
 <body>
-  <div class="top">
-    <div>17  06  25</div>
-    <div>ABBY.WORLD<br>7 RUE DE LA CALADE<br>CANNES</div>
+  <header>
+    <div>17 &nbsp;&nbsp; 06 &nbsp;&nbsp; 25</div>
+    <div>ABBY.WORLD</div>
+    <div>7 RUE DE LA CALADE</div>
+    <div>CANNES</div>
+    <h1>ABBY.WORLD Cannes 2025</h1>
+    <div class="time">TUESDAY–WEDNESDAY</div>
 
-    <div class="headline">ABBY.WORLD Cannes 2025</div>
-    <div class="weekday">TUESDAY–WEDNESDAY</div>
+    <form action="https://formspree.io/f/xldjayre" method="POST" id="signup-form">
+      <input type="email" name="email" placeholder=" " required />
+      <button type="submit">SIGN UP</button>
+    </form>
 
-    <div class="form-section">
-      <div class="dash-line"></div>
-      <form action="https://formspree.io/f/xldjayre" method="POST" onsubmit="showLegal(event)">
-        <input type="email" name="email" required>
-        <button type="submit">SIGN UP</button>
-      </form>
-    </div>
-
-    <div id="legal">
-      By submitting this form, you consent to us processing your personal data to send you information about the event.  
-      We will not keep your data longer than necessary.  
+    <div class="legal" id="signup-info">
+      By submitting this form, you consent to us processing your personal data to send you information about the event.<br />
+      We will not keep your data longer than necessary.<br />
       <a href="https://docs.google.com/document/d/1Dte-DqgnydV6A6dxK7Ldg7Wn774N0YIbEcEmPN4XQq8/edit?usp=sharing" target="_blank">Learn more here</a>.
     </div>
-  </div>
+  </header>
 
-  <img src="Abby_flower.png" class="flower" alt="Abby Flower" />
+  <img src="Abby_flower.png" alt="Abby Flower" class="flower" />
 
   <script>
-    function showLegal(e) {
-      e.preventDefault();
-      const form = e.target;
-      const data = new FormData(form);
-      fetch(form.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      }).then(response => {
-        if (response.ok) {
-          document.getElementById('legal').style.opacity = 1;
-          form.reset();
-        }
-      });
-    }
+    const form = document.getElementById('signup-form');
+    const legal = document.getElementById('signup-info');
+
+    form.addEventListener('submit', function(e) {
+      legal.classList.remove('visible'); // reset
+      setTimeout(() => legal.classList.add('visible'), 500);
+    });
+
+    form.querySelector('input').addEventListener('focus', () => {
+      legal.classList.add('visible');
+    });
   </script>
 </body>
 </html>
