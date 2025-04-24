@@ -80,8 +80,10 @@ button {
   color: black;
   font-family: 'HelveticaMono', monospace;
   font-size: 17px;
-  padding: 2px 2px;
-  line-height: 1;
+  padding: 1px 1px;
+  padding-bottom: 0;              /* 👈 lägg till den här */
+  line-height: normal;            /* 👈 och den här */
+  box-sizing: content-box;        /* 👈 och den här */
   display: inline-block;
   vertical-align: middle;
   cursor: pointer;
