@@ -14,135 +14,134 @@
       font-family: 'HelveticaMono';
       src: url('HelveticaMonospacedPro-Rg.otf') format('opentype');
     }
-<style>
-  body {
-    background-color: #F0EDE6;
-    margin: 0;
-    padding: 0;
-    font-family: 'TiemposText-Regular', serif;
-  }
 
-  .wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 60px; /* Justera denna för topmarginal */
-    padding-bottom: 60px; /* så att blomman inte klipps */
-  }
-
-  h1 {
-    font-size: 28px;
-    margin-bottom: 40px;
-  }
-
-  .date, .address, .title, .subhead {
-    font-family: 'HelveticaMonospacedPro-Rg', monospace;
-    font-size: 14px;
-    line-height: 1.6;
-    text-align: center;
-  }
-
-  .title {
-    font-family: 'TiemposText-Regular', serif;
-    font-size: 26px;
-    margin: 40px 0;
-  }
-
-  .subhead {
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-
-  .form-block {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .input-line {
-    border: none;
-    border-bottom: 1px dashed black;
-    background: transparent;
-    color: black;
-    font-family: 'HelveticaMonospacedPro-Rg', monospace;
-    font-size: 16px;
-    padding: 0px;
-    line-height: 1;
-    text-align: center;
-    outline: none;
-    margin-right: 4px;
-    width: 140px; /* justerbart */
-    -webkit-text-size-adjust: 100%;
-  }
-
-  button {
-    background: transparent;
-    border: 1px solid black;
-    color: black;
-    font-family: 'HelveticaMonospacedPro-Rg', monospace;
-    font-size: 16px;
-    padding: 1px 4px;
-    line-height: 1;
-    display: inline-block;
-    vertical-align: middle;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-  }
-
-  button.active {
-    background: black;
-    color: #F0EDE6;
-  }
-
-  .legal-text {
-    font-size: 12px;
-    color: black;
-    font-family: 'HelveticaMonospacedPro-Rg', monospace;
-    margin-top: 20px;
-    max-width: 300px;
-    text-align: center;
-    opacity: 1;
-    transition: opacity 1s ease;
-  }
-
-  .legal-text.fade-out {
-    opacity: 0;
-  }
-
-  .flower {
-    width: 80px;
-    margin-top: 40px;
-    margin-bottom: 0;
-  }
-
-  /* Mobilanpassning */
-  @media (max-width: 768px) {
-    .form-block {
-      flex-direction: column;
+    body {
+      margin: 0;
+      background-color: #F0EDE6;
+      font-family: 'TiemposText', serif;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    .legal-text {
-      order: -1;
-      margin-bottom: 20px;
+    .top-info {
+      position: absolute;
+      top: 40px; /* ✏️ Justera hela blockets avstånd från toppen */
+      width: 100%;
+      text-align: center;
+      font-family: 'HelveticaMono', monospace;
+      line-height: 1; /* ✏️ Justera radavståndet för översta blocket */
+      font-size: 17px; /* ✏️ Justera textstorlek */
     }
 
-    .flower {
-      margin-top: 0;
+    .main-title {
+      font-family: 'TiemposText', serif;
+      font-size: 23px; /* ✏️ Justera rubrikens storlek */
+      margin-top: 50px; /* ✏️ Justera rubrikens avstånd från toppen */
+      line-height: 1.3; /* ✏️ Justera rubrikens radavstånd */
+    }
+
+    .subhead {
+      font-family: 'HelveticaMono', monospace;
+      font-size: 17px; /* ✏️ Justera TUESDAY–WEDNESDAY storlek */
+      margin-top: 50px; /* ✏️ Justera dess vertikala placering */
+      line-height: 1.2;
+    }
+
+    .form-wrapper {
+      position: absolute;
+      top: 255px; /* ✏️ Justera formulärets vertikala placering */
+      width: 100%;
+      text-align: center;
+      font-family: 'HelveticaMono', monospace;
+      line-height: 1.4; /* ✏️ Formulärets radavstånd */
+    }
+
+    form {
+      display: inline-flex;
+      align-items: center;
     }
 
     .input-line {
-      font-size: 16px;
-      width: 100%;
-      max-width: 200px;
+      border: none;
+      border-bottom: 1px dashed black;
+      background: transparent;
+      color: black;
+      font-family: 'HelveticaMono', monospace;
+      font-size: 14px;
+      width: 147px; /* ✏️ Justera inputfältets längd */
+      text-align: center;
+      outline: none;
+      margin-right: 2px;
     }
 
-    button {
-      margin-top: 10px;
+button {
+  background: transparent;
+  border: 1px solid black;
+  color: black;
+  font-family: 'HelveticaMono', monospace;
+  font-size: 17px;
+  padding: 2px; /* Inga extra pixlar runt texten */
+  line-height: 1; /* Tätsittande radavstånd */
+  height: 100%; /* Förhindra "auto"-höjd som ger extra space */
+  display: inline-flex; /* 👈 bättre kontroll på innehålls-centrering */
+  align-items: center;  /* 👈 vertikalcentrering */
+  justify-content: center;
+  box-sizing: border-box; /* Viktigt! */
+  vertical-align: middle;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+    button.clicked {
+      background: black;
+      color: #F0EDE6;
     }
+
+    .legal {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      font-size: 7px;
+      margin-top: 400px;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      font-family: 'HelveticaMono', monospace;
+      line-height: 1.2; /* ✏️ Justera radavstånd i legaltext */
+    }
+
+    .legal a {
+      color: black;
+      text-decoration: underline;
+    }
+
+    #flower {
+      position: absolute;
+      bottom: 40px; /* ✏️ Justera avstånd från nederkant */
+      width: 140px; /* ✏️ Justera storlek på blomman */
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+@media (max-width: 768px) {
+  .legal-text {
+    position: relative;
+    margin-bottom: 20px;
+    order: -1; /* flyttar legaltexten uppåt */
+    text-align: center;
+    padding: 0 20px;
   }
-</style>
+
+  .flower {
+    margin-top: 0;
+  }
+
+  .form-block {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+  </style>
 </head>
 <body>
 
