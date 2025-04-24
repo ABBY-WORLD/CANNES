@@ -141,20 +141,22 @@ button {
   }
 }
 @media (max-width: 768px) {
-  .form-block {
+  #signup-form-container {
+    display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .legal-text {
-    order: -1;               /* Flyttar legaltexten högst upp i formblocket */
-    margin-bottom: 16px;     /* Ger lite luft mellan legaltext och input */
+  #signup-info {
+    order: -1;               /* Flyttar legaltexten överst */
+    margin-bottom: 16px;     /* Luft mellan text och input */
     max-width: 260px;
+    text-align: center;
   }
 
   .input-line {
     font-size: 16px;
-    -webkit-text-size-adjust: 100%; /* Hindrar iOS-zoom */
+    -webkit-text-size-adjust: 100%; /* Hindrar inzoomning */
   }
 
   .flower {
