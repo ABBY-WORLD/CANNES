@@ -59,7 +59,7 @@
       font-size: 16px;
       color: black;
       outline: none;
-      width: 200px; /* Justerbar input-längd */
+      width: 200px; /* <-- Justera längden här */
       text-align: center;
     }
 
@@ -74,7 +74,7 @@
       transition: all 0.3s ease;
     }
 
-    .signup-button.clicked {
+    .signup-button.sent {
       background-color: black;
       color: #F0EDE6;
       border: none;
@@ -134,17 +134,15 @@
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      
-      // Change state on click
       button.textContent = "THANK YOU";
-      button.classList.add("clicked");
+      button.classList.add("sent");
+
       legal.style.opacity = 0;
 
       setTimeout(() => {
-        // Reset everything after 2 sec
         input.value = "";
         button.textContent = "SIGN UP";
-        button.classList.remove("clicked");
+        button.classList.remove("sent");
         legal.style.opacity = 1;
       }, 2000);
     });
