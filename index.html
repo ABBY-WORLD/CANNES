@@ -4,137 +4,174 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ABBY.WORLD Cannes 2025</title>
-  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" href="favicon.png" type="image/png" />
   <style>
     @font-face {
-      font-family: 'Tiempos';
+      font-family: 'TiemposText';
       src: url('TiemposText-Regular.otf') format('opentype');
     }
+
     @font-face {
-      font-family: 'Mono';
+      font-family: 'HelveticaMono';
       src: url('HelveticaMonospacedPro-Rg.otf') format('opentype');
     }
 
     body {
-      background-color: #F0EDE6;
-      font-family: 'Mono', monospace;
       margin: 0;
-      padding: 0;
+      background-color: #F0EDE6;
+      font-family: 'HelveticaMono', monospace;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       min-height: 100vh;
+      padding: 40px 20px;
+      box-sizing: border-box;
+    }
+
+    .top-content {
       text-align: center;
+      line-height: 1.4;
     }
 
-    header {
-      padding-top: 4vh;
-      line-height: 1.6;
-      font-size: 16px;
-    }
-
-    h1 {
-      font-family: 'Tiempos', serif;
+    .top-content .heading {
+      font-family: 'TiemposText', serif;
       font-size: 24px;
-      margin: 6vh 0 2vh;
+      margin: 60px 0 30px;
     }
 
-    .time {
+    .date-line {
+      margin-top: 30px;
+      font-family: 'HelveticaMono', monospace;
       font-size: 16px;
-      margin-bottom: 16px;
     }
 
     form {
       display: flex;
-      justify-content: center;
       align-items: center;
-      font-family: 'Mono', monospace;
-      font-size: 16px;
-      margin-bottom: 16px;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
     }
 
     input[type="email"] {
-      border: none;
-      border-bottom: 2px dashed black;
-      background: transparent;
-      color: black;
-      padding: 4px 8px;
-      font-family: 'Mono', monospace;
+      font-family: 'HelveticaMono', monospace;
       font-size: 16px;
-      width: 200px;
+      border: none;
+      background: none;
+      border-bottom: 2px dashed black;
       outline: none;
+      width: 240px;
       text-align: center;
-    }
-
-    input::placeholder {
+      padding: 4px 0;
       color: black;
-      opacity: 0.6;
     }
 
     button {
+      font-family: 'HelveticaMono', monospace;
+      font-size: 16px;
       background: black;
       color: white;
       border: none;
-      font-family: 'Mono', monospace;
-      font-size: 16px;
-      padding: 4px 8px;
-      margin-left: 8px;
+      padding: 6px 12px;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
 
-    .legal {
+    button:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    #legal {
       font-size: 10px;
-      max-width: 300px;
-      margin: 12px auto;
+      text-align: center;
+      max-width: 260px;
+      margin: 20px auto 0;
+      font-family: 'HelveticaMono', monospace;
       opacity: 0;
       transition: opacity 1s ease;
     }
 
-    .legal.visible {
-      opacity: 1;
+    #legal a {
+      color: black;
+      text-decoration: underline;
     }
 
     .flower {
-      width: 80px;
-      margin: 4vh auto 2vh;
+      width: 100px;
+      margin: 40px auto 0;
     }
 
+    @media (min-width: 600px) {
+      .flower {
+        width: 120px;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .flower {
+        width: 140px;
+      }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div>17 &nbsp;&nbsp; 06 &nbsp;&nbsp; 25</div>
+  <div class="top-content">
+    <div>17 &nbsp;&nbsp;&nbsp; 06 &nbsp;&nbsp;&nbsp; 25</div>
     <div>ABBY.WORLD</div>
     <div>7 RUE DE LA CALADE</div>
     <div>CANNES</div>
-    <h1>ABBY.WORLD Cannes 2025</h1>
-    <div class="time">TUESDAY–WEDNESDAY</div>
 
-    <form action="https://formspree.io/f/xldjayre" method="POST" id="signup-form">
-      <input type="email" name="email" placeholder=" " required />
-      <button type="submit">SIGN UP</button>
+    <div class="heading">ABBY.WORLD Cannes 2025</div>
+    <div class="date-line">TUESDAY–WEDNESDAY</div>
+
+    <form id="signup-form" action="https://formspree.io/f/xldjayre" method="POST">
+      <input type="email" name="email" id="email-input" placeholder=" " required />
+      <button type="submit" id="submit-button">SIGN UP</button>
     </form>
 
-    <div class="legal" id="signup-info">
-      By submitting this form, you consent to us processing your personal data to send you information about the event.<br />
-      We will not keep your data longer than necessary.<br />
+    <div id="legal">
+      By submitting this form, you consent to us processing your personal data to send you information about the event.
+      We will not keep your data longer than necessary.
       <a href="https://docs.google.com/document/d/1Dte-DqgnydV6A6dxK7Ldg7Wn774N0YIbEcEmPN4XQq8/edit?usp=sharing" target="_blank">Learn more here</a>.
     </div>
-  </header>
+  </div>
 
-  <img src="Abby_flower.png" alt="Abby Flower" class="flower" />
+  <img src="Abby_flower.png" alt="Flower" class="flower" />
 
   <script>
+    const emailInput = document.getElementById('email-input');
+    const submitButton = document.getElementById('submit-button');
+    const legalText = document.getElementById('legal');
     const form = document.getElementById('signup-form');
-    const legal = document.getElementById('signup-info');
 
-    form.addEventListener('submit', function(e) {
-      legal.classList.remove('visible'); // reset
-      setTimeout(() => legal.classList.add('visible'), 500);
+    emailInput.addEventListener('focus', () => {
+      legalText.style.opacity = 1;
     });
 
-    form.querySelector('input').addEventListener('focus', () => {
-      legal.classList.add('visible');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(response => {
+        if (response.ok) {
+          submitButton.innerText = 'THANK YOU';
+          submitButton.disabled = true;
+          setTimeout(() => {
+            legalText.style.opacity = 0;
+          }, 2000);
+        } else {
+          alert("There was a problem. Please try again.");
+        }
+      })
+      .catch(() => {
+        alert("There was a problem. Please try again.");
+      });
     });
   </script>
 </body>
