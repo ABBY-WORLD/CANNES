@@ -2,167 +2,171 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ABBY.WORLD Cannes 2025</title>
   <link rel="icon" href="favicon.png" type="image/png" />
   <style>
     @font-face {
-      font-family: 'TiemposText-Regular';
+      font-family: 'TiemposText';
       src: url('TiemposText-Regular.otf') format('opentype');
     }
-
     @font-face {
-      font-family: 'HelveticaMonospacedPro-Rg';
+      font-family: 'HelveticaMono';
       src: url('HelveticaMonospacedPro-Rg.otf') format('opentype');
     }
 
     body {
-      background-color: #F0EDE6;
-      font-family: 'HelveticaMonospacedPro-Rg', monospace;
       margin: 0;
-      padding: 0;
+      background-color: #F0EDE6;
+      font-family: 'TiemposText', serif;
+      height: 100vh;
       overflow: hidden;
     }
 
-    #header-block {
+    .top-info {
       position: absolute;
-      top: 40px; /* Ändra för att styra rubrikens vertikala placering */
-      left: 5vw;
+      top: 40px; /* ✏️ Justera hela blockets avstånd från toppen */
+      width: 100%;
+      text-align: center;
+      font-family: 'HelveticaMono', monospace;
+      line-height: 1.6; /* ✏️ Justera radavståndet för översta blocket */
+      font-size: 14px; /* ✏️ Justera textstorlek */
     }
 
-    #header {
-      font-family: 'TiemposText-Regular', serif;
-      font-size: 14px;
-      letter-spacing: 0.5px;
+    .main-title {
+      font-family: 'TiemposText', serif;
+      font-size: 26px; /* ✏️ Justera rubrikens storlek */
+      margin-top: 50px; /* ✏️ Justera rubrikens avstånd från toppen */
+      line-height: 1.3; /* ✏️ Justera rubrikens radavstånd */
     }
 
-    #form-block {
+    .subhead {
+      font-family: 'HelveticaMono', monospace;
+      font-size: 14px; /* ✏️ Justera TUESDAY–WEDNESDAY storlek */
+      margin-top: 20px; /* ✏️ Justera dess vertikala placering */
+      line-height: 1.2;
+    }
+
+    .form-wrapper {
       position: absolute;
-      top: 100px; /* Ändra för att justera formulärets position */
-      right: 5vw;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
+      top: 370px; /* ✏️ Justera formulärets vertikala placering */
+      width: 100%;
+      text-align: center;
+      font-family: 'HelveticaMono', monospace;
+      line-height: 1.4; /* ✏️ Formulärets radavstånd */
     }
 
-    #signup-form {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
+    form {
+      display: inline-flex;
+      align-items: center;
     }
 
-    #email-input {
+    .input-line {
       border: none;
-      border-bottom: 1px dashed black;
+      border-bottom: 2px dashed black;
       background: transparent;
-      font-size: 12px;
-      padding: 6px 0;
-      width: 200px; /* Justera längden på input-linjen här */
       color: black;
-      font-family: 'HelveticaMonospacedPro-Rg', monospace;
+      font-family: 'HelveticaMono', monospace;
+      font-size: 16px;
+      width: 220px; /* ✏️ Justera inputfältets längd */
+      text-align: center;
+      outline: none;
+      margin-right: 10px;
     }
 
-    #email-input::placeholder {
-      color: transparent;
-    }
-
-    #submit-button {
-      margin-top: 8px;
-      background-color: transparent;
+    button {
+      background: transparent;
       border: 1px solid black;
       color: black;
-      font-size: 12px;
+      font-family: 'HelveticaMono', monospace;
+      font-size: 16px;
       padding: 4px 10px;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-family: 'HelveticaMonospacedPro-Rg', monospace;
     }
 
-    #submit-button.clicked {
-      background-color: black;
+    button.clicked {
+      background: black;
       color: #F0EDE6;
     }
 
-    #legal-text {
+    .legal {
       opacity: 0;
       transition: opacity 0.5s ease;
       font-size: 10px;
-      max-width: 180px;
-      line-height: 1.4;
       margin-top: 10px;
-      color: black;
-      font-family: 'HelveticaMonospacedPro-Rg', monospace;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      font-family: 'HelveticaMono', monospace;
+      line-height: 1.4; /* ✏️ Justera radavstånd i legaltext */
     }
 
-    #legal-text a {
+    .legal a {
       color: black;
       text-decoration: underline;
     }
 
-    #flower-image {
+    #flower {
       position: absolute;
-      bottom: 40px; /* Justera detta för att flytta blomman */
+      bottom: 40px; /* ✏️ Justera avstånd från nederkant */
+      width: 80px; /* ✏️ Justera storlek på blomman */
       left: 50%;
       transform: translateX(-50%);
-      width: 120px; /* Justera storlek här */
     }
   </style>
 </head>
 <body>
 
-  <div id="header-block">
-    <div id="header">TUESDAY–WEDNESDAY</div>
+  <div class="top-info">
+    <div>17  06  25</div>
+    <div>ABBY.WORLD<br>7 RUE DE LA CALADE<br>CANNES</div>
+    <div class="main-title">ABBY.WORLD Cannes 2025</div>
+    <div class="subhead">TUESDAY–WEDNESDAY</div>
   </div>
 
-  <div id="form-block">
+  <div class="form-wrapper">
     <form id="signup-form" action="https://formspree.io/f/xldjayre" method="POST">
-      <input type="email" id="email-input" name="email" required />
+      <input type="email" name="email" class="input-line" required />
       <button type="submit" id="submit-button">SIGN UP</button>
     </form>
-    <div id="legal-text">
+    <div class="legal" id="signup-info">
       By submitting this form, you consent to us processing your personal data to send you information about the event.
       We will not keep your data longer than necessary.
       <a href="https://docs.google.com/document/d/1Dte-DqgnydV6A6dxK7Ldg7Wn774N0YIbEcEmPN4XQq8/edit?usp=sharing" target="_blank">Learn more here</a>.
     </div>
   </div>
 
-  <img src="Abby_flower.png" id="flower-image" alt="Flower" />
+  <img id="flower" src="Abby_flower.png" alt="Flower" />
 
   <script>
     const form = document.getElementById("signup-form");
-    const emailInput = document.getElementById("email-input");
+    const email = document.querySelector(".input-line");
     const button = document.getElementById("submit-button");
-    const legalText = document.getElementById("legal-text");
+    const legal = document.getElementById("signup-info");
 
-    emailInput.addEventListener("focus", () => {
-      legalText.style.opacity = 1;
+    email.addEventListener("focus", () => {
+      legal.style.opacity = 1;
     });
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
-
       button.textContent = "THANK YOU";
       button.classList.add("clicked");
-      legalText.style.opacity = 0;
 
       setTimeout(() => {
-        // Reset everything after 2.5 seconds
-        emailInput.value = "";
+        legal.style.opacity = 0;
         button.textContent = "SIGN UP";
         button.classList.remove("clicked");
-      }, 2500);
+        form.reset();
+      }, 3000);
 
-      // Send the form data
-      const data = new FormData(form);
       fetch(form.action, {
         method: "POST",
-        body: data,
-        headers: {
-          Accept: "application/json"
-        }
-      }).catch((err) => console.error("Error:", err));
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).catch(error => console.log("Error:", error));
     });
   </script>
-
 </body>
 </html>
