@@ -123,28 +123,22 @@ button {
     }
 
 @media (max-width: 768px) {
-  .form-wrapper {
+  #signup-form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
   #signup-info {
-    order: -1;
-    margin-bottom: 16px;
+    order: -1;               /* Flytta upp legaltexten */
+    margin-bottom: 16px;     /* Luft mellan legaltext och input */
     max-width: 260px;
     text-align: center;
   }
 
-  #signup-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
   .input-line {
     font-size: 16px;
-    -webkit-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%; /* Stoppar iOS-zoom */
   }
 
   .flower {
@@ -162,20 +156,17 @@ button {
     <div class="subhead">TUESDAY–WEDNESDAY</div>
   </div>
 
-<div class="form-wrapper">
-  <!-- ✅ Legaltext först i ordning – fungerar för mobil -->
-  <div class="legal" id="signup-info">
-    By submitting this form, you consent to us processing your personal data to send you information about the event.
-    We will not keep your data longer than necessary.
-    <a href="https://docs.google.com/document/d/1Dte–DqgnydV6A6dxK7Ldg7Wn774N0YIbEcEmPN4XQq8/edit?usp=sharing" target="_blank">Learn more here</a>.
+  <div class="form-wrapper">
+    <form id="signup-form" action="https://formspree.io/f/xldjayre" method="POST">
+      <input type="email" name="email" class="input-line" required />
+      <button type="submit" id="submit-button">SIGN UP</button>
+    </form>
+    <div class="legal" id="signup-info">
+      By submitting this form, you consent to us processing your personal data to send you information about the event.
+      We will not keep your data longer than necessary.
+      <a href="https://docs.google.com/document/d/1Dte-DqgnydV6A6dxK7Ldg7Wn774N0YIbEcEmPN4XQq8/edit?usp=sharing" target="_blank">Learn more here</a>.
+    </div>
   </div>
-
-  <!-- Själva formuläret -->
-  <form id="signup-form" action="https://formspree.io/f/xldjayre" method="POST">
-    <input type="email" name="email" class="input-line" required />
-    <button type="submit" id="submit-button">SIGN UP</button>
-  </form>
-</div>
 
   <img id="flower" src="Abby_flower.png" alt="Flower" />
 
