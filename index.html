@@ -56,6 +56,19 @@
     #signup-form input[type="email"]:focus {
       border-bottom: 1px solid white;
     }
+    #signup-info {
+      opacity: 0;
+      transition: opacity 1s ease;
+      color: white;
+      font-size: 10px;
+      margin-top: 6px;
+      max-width: 180px;
+      line-height: 1.4;
+    }
+    #signup-info a {
+      color: white;
+      text-decoration: underline;
+    }
     #response-message {
       color: white;
       font-size: 10px;
@@ -106,10 +119,16 @@
   </svg>
 
   <div id="header">CANNES 2025</div>
+
   <div id="signup-form-container">
     <form action="https://formspree.io/f/xldjayre" method="POST" id="signup-form">
       <input type="email" name="email" placeholder="SIGN UP" required />
     </form>
+    <div id="signup-info">
+      By submitting this form, you consent to us processing your personal data to send you information about the event.
+      We will not keep your data longer than necessary.
+      <a href="https://docs.google.com/document/d/1Dte-DqgnydV6A6dxK7Ldg7Wn774N0YIbEcEmPN4XQq8/edit?usp=sharing" target="_blank">Learn more here</a>.
+    </div>
     <p id="response-message"></p>
   </div>
 
@@ -214,17 +233,15 @@
       mouseY = e.clientY / window.innerHeight;
     });
 
-    // FOV timer med slumpad delay
     function loopFOV() {
       targetFocalLength = (targetFocalLength === 3000) ? 300 : 3000;
-      const delay = Math.random() * 4000 + 3000; // 3–7 sek
+      const delay = Math.random() * 4000 + 3000;
       setTimeout(loopFOV, delay);
     }
 
-    // WordCount timer med slumpad delay
     function loopWordCount() {
       targetPoints = (targetPoints === 100) ? 400 : 100;
-      const delay = Math.random() * 4000 + 3000; // 3–7 sek
+      const delay = Math.random() * 4000 + 3000;
       setTimeout(loopWordCount, delay);
     }
 
@@ -277,6 +294,7 @@
 
     const form = document.getElementById('signup-form');
     const responseMsg = document.getElementById('response-message');
+    const signupInfo = document.getElementById('signup-info');
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -285,9 +303,7 @@
       fetch(form.action, {
         method: 'POST',
         body: data,
-        headers: {
-          'Accept': 'application/json'
-        }
+        headers: { 'Accept': 'application/json' }
       })
       .then(response => {
         if (response.ok) {
@@ -312,10 +328,19 @@
     function showMessage(message) {
       responseMsg.textContent = message;
       responseMsg.style.opacity = 1;
+      signupInfo.style.opacity = 0;
+
       setTimeout(() => {
         responseMsg.style.opacity = 0;
       }, 3000);
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const emailInput = document.querySelector('#signup-form input[type="email"]');
+      emailInput.addEventListener("focus", () => {
+        signupInfo.style.opacity = 1;
+      });
+    });
   </script>
 </body>
 </html>
